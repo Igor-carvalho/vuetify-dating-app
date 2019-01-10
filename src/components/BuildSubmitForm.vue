@@ -67,7 +67,10 @@
                                                                 class="text-xs-center mb-2">{{subitem.value}}</h3>
                                                             <h4 v-else-if="subitem.type=='text'"
                                                                 class="text-xs-center mb-2">{{subitem.value}}</h4>
-                                                            <div v-else-if="subitem.type=='image'||subitem.type=='files'">
+                                                            <div v-else-if="subitem.type=='image'">
+                                                                <ImageUpload :name="subitem.name"></ImageUpload>
+                                                            </div>
+                                                            <div v-else-if="subitem.type=='files'">
                                                                 <FileUpload
                                                                         :name="subitem.name">
                                                                 </FileUpload>
@@ -112,7 +115,10 @@
                                                                         class="text-xs-center mb-2">{{sub.value}}</h3>
                                                                     <h4 v-else-if="sub.type=='text'"
                                                                         class="text-xs-center mb-2">{{sub.value}}</h4>
-                                                                    <div v-else-if="sub.type=='image'||sub.type=='files'">
+                                                                    <div v-else-if="sub.type=='image'">
+                                                                        <ImageUpload :name="sub.name"></ImageUpload>
+                                                                    </div>
+                                                                    <div v-else-if="sub.type=='files'">
                                                                         <FileUpload
                                                                                 :name="sub.name">
                                                                         </FileUpload>
@@ -153,9 +159,10 @@
 <script>
     import { mapState, mapActions, mapMutations } from 'vuex'
     import FileUpload from "./FileUpload";
+    import ImageUpload from "./ImageUpload";
     export default {
         name: 'NewItems',
-        components: {FileUpload},
+        components: {ImageUpload, FileUpload},
         props: {
             forminfo: {type: Object, required: true},
             formdata: {type: Object, required: true}

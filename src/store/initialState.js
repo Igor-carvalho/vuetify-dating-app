@@ -39,5 +39,7 @@ export default {
     submitteditems: {},
     formdata: {},
     submittednewitems: {},
-    uploadPercentage: 0
+    uploadPercentage: 0,
+    uploadedFilePath: '',
+    uploadedImagePath: ''
 }

@@ -66,13 +66,17 @@ export default {
         // state.submitteditems.push(data)
         state.submittednewitems = {...state.submittednewitems, data}
     },
-    setPhotoUrl (state, data) {
+    setFileUrl (state, data) {
         // state.submitteditems.push(data)
         state.formdata[data.formName] = data.url
-        console.log('submittedFormdata', state.formdata)
+        state.uploadedFilePath = data.url
+        // console.log('submittedFormdata', state.formdata)
     },
-    setUploadPercentage (state, data) {
+
+    setImageUrl (state, data) {
         // state.submitteditems.push(data)
-        state.uploadPercentage = data;
+        state.formdata[data.formName] = data.url
+        state.uploadedImagePath = data.url
+        // console.log('submittedFormdata', state.formdata)
     },
 }

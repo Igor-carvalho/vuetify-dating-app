@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import ItemsList from './views/ItemsList.vue'
+import Aside from './components/Aside.vue'
 import store from '@/store'
 
 Vue.use(Router)
@@ -12,11 +12,7 @@ const router = new Router({
     routes: [{
             path: '/',
             name: 'home',
-            component: ItemsList
-        },{
-            path: '/userprofile',
-            name: 'home',
-            component: Home
+            component: Aside
         },
         {
             path: '/login',
@@ -54,12 +50,12 @@ const router = new Router({
         {
             path: '/itemslist',
             name: 'itemslist',
-            component: () => import('./views/ItemsList.vue')
+            component: () => import('./views/ListView.vue')
         },
         {
             path: '/itemslist/new',
             name: 'newitem',
-            component: () => import('./views/NewItem.vue')
+            component: () => import('./views/FormView.vue')
         },
         {
             path: '/form/:id',

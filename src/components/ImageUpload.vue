@@ -1,27 +1,15 @@
 <template>
     <div class="file-drag-drop">
-        <div class="fileForm" ref="fileform">
-            <input hidden type="file" name="files[]" id="file" @change="onFileChange"/>
-            <label for="file" class="upload-label">
-                <span v-if="uploadedFilePath==''"><strong class="choose-file">Choose a file</strong></span>
-                <span v-else @click="openImage()">[{{uploadedFilePath}}</span>
+        <div class="fileForm" ref="imageform">
+            <input hidden type="file" name="files[]" id="imageupload" @change="onImageChange"/>
+            <label for="imageupload" class="upload-label">
+                <span v-if="uploadedImagePath==''"><strong class="choose-file">Choose an Image file</strong></span>
+                <span v-else @click="openImage()">[{{ uploadedImagePath }}]</span>
                 <!--<span> or drag it here</span>-->
-            </label>
+                </label>
             <!--<span class="drop-files">Drop the files here!</span>-->
         </div>
-
-        <!--<div v-if="files"  class="file-listing">-->
-            <!--<div class="img-container">-->
-                <img hidden @click="openImage()" class="previewFile" v-bind:ref="'previewFile'"/>
-                <!--<br>-->
-                <!--<span>{{ uploadedFilePath }}</span>-->
-            <!--</div>-->
-            <!--<div class="remove-container">-->
-                <!--<v-btn class="remove" v-on:click="removeFile( )">Remove</v-btn>-->
-                <!--<br>-->
-                <!--<v-btn class="submit-button" v-on:click="submitFiles()">Submit</v-btn>-->
-            <!--</div>-->
-        <!--</div>-->
+        <img hidden @click="openImage()" class="preview" v-bind:ref="'preview'"/>
 
     </div>
 </template>
@@ -40,12 +28,13 @@
             return {
                 dragAndDropCapable: false,
                 files: '',
-                // uploadPercentage: 0
             }
         },
 
         mounted(){
-            this.$store.state.uploadedFilePath=''
+            this.$store.state.uploadedImagePath = ''
+            console.log('imagepath',this.uploadedImagePath)
+            // this.uploadedImagePath = ''
 
             /*
               Determine if drag and drop functionality is capable in the browser
@@ -58,7 +47,7 @@
             if( this.dragAndDropCapable ){
                 /*
                   Listen to all of the drag events and bind an event listener to each
-                  for the fileform.
+                  for the imageform.
                 */
                 ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach( function( evt ) {
                     /*
@@ -66,7 +55,7 @@
                       (opening the file in the browser) and stop the propagation of the event (so
                       no other elements open the file in the browser)
                     */
-                    this.$refs.fileform.addEventListener(evt, function(e){
+                    this.$refs.imageform.addEventListener(evt, function(e){
                         e.preventDefault();
                         e.stopPropagation();
                     }.bind(this), false);
@@ -75,7 +64,7 @@
                 /*
                   Add an event listener for drop to the form
                 */
-                this.$refs.fileform.addEventListener('drop', function(e){
+                this.$refs.imageform.addEventListener('drop', function(e){
                     /*
                       Capture the files from the drop event and add them to our local files
                       array.
@@ -85,21 +74,23 @@
                     //     this.getImagePreviews();
                     // }
                     this.files = e.dataTransfer.files[0]
+
                     this.getImagePreviews();
                 }.bind(this));
             }
         },
         computed:{
-            ...mapState(['uploadedFilePath']),
+            ...mapState(['uploadedImagePath']),
         },
 
         methods: {
-            ...mapActions(['uploadFile']),
-            onFileChange(e){
+            ...mapActions(['uploadImage']),
+            onImageChange(e){
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length) return;
                 this.files=files[0];
                 this.getImagePreviews();
+
                 // console.log(e)
                 // for( let i = 0; i < e.dataTransfer.files.length; i++ ){
                 //     this.files.push( e.dataTransfer.files[i] );
@@ -108,7 +99,7 @@
 
                 let formData = new FormData()
                 formData.append('files', this.files)
-                this.uploadFile({formData:formData, formName:this.name})
+                this.uploadImage({formData:formData, formName:this.name})
             },
             /*
               Determines if the drag and drop functionality is in the
@@ -154,10 +145,10 @@
 
                         /*
                           Add an event listener for when the file has been loaded
-                          to update the src on the file previewFile.
+                          to update the src on the file preview.
                         */
                         reader.addEventListener("load", function(){
-                            this.$refs['previewFile'].src = reader.result;
+                            this.$refs['preview'].src = reader.result;
                         }.bind(this), false);
 
                         /*
@@ -171,7 +162,7 @@
                           We do the next tick so the reference is bound and we can access it.
                         */
                         this.$nextTick(function(){
-                            this.$refs['previewFile'].src = '/images/file.png';
+                            this.$refs['preview'].src = '/images/file.png';
                         });
                     }
                 // }
@@ -207,11 +198,12 @@
             */
             removeFile(  ){
                 this.files='';
+
             },
 
             openImage() {
                 let image = new Image();
-                image.src = this.$refs['previewFile'].src
+                image.src = this.$refs['preview'].src
                 image.width = 300
                 image.height = 300
 
@@ -242,7 +234,7 @@
     }
 
     div.file-listing{
-        width: 400px;
+        width: 300px;
         margin: auto;
         padding: 10px;
         border-bottom: 1px solid #ddd;
@@ -276,14 +268,6 @@
         color: white;
         font-weight: bold;
         margin-top: 20px;
-    }
-
-    progress{
-        width: 400px;
-        margin: auto;
-        display: block !important;
-        margin-top: 10px;
-        margin-bottom: 10px;
     }
 
     .img-container {

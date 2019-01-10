@@ -1,9 +1,8 @@
 <template>
     <div id="app">
         <v-content>
-            <MainNav></MainNav>
-            <Aside></Aside>
-            <div style="margin: 65px 0px 65px 300px ;">
+            <!--<Aside></Aside>-->
+            <div style="margin: 65px 0px 65px 0px ;">
                 <v-fade-transition mode="out-in">
                     <router-view />
                 </v-fade-transition>
@@ -16,13 +15,11 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import Footer from './components/Footer.vue'
-import MainNav from "./components/MainNav";
 import Aside from "./components/Aside";
 
 export default {
     components: {
         Aside,
-        MainNav,
         Footer
     },
     computed: {
