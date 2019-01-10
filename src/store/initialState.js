@@ -39,4 +39,5 @@ export default {
     submitteditems: {},
     formdata: {},
     submittednewitems: {},
+    uploadPercentage: 0
 }

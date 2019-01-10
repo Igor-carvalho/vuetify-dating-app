@@ -67,12 +67,11 @@
                                                                 class="text-xs-center mb-2">{{subitem.value}}</h3>
                                                             <h4 v-else-if="subitem.type=='text'"
                                                                 class="text-xs-center mb-2">{{subitem.value}}</h4>
-                                                            <input v-else-if="subitem.type=='image'||subitem.type=='files'"
-                                                                   type="file"
-                                                                   :name="subitem.name"
-                                                                   :value="subitem.default"
-                                                                   :placeholder="subitem.placeholder"
-                                                                   ref="uploadfile" v-on:change="handleFileUpload()"/>
+                                                            <div v-else-if="subitem.type=='image'||subitem.type=='files'">
+                                                                <FileUpload
+                                                                        :name="subitem.name">
+                                                                </FileUpload>
+                                                            </div>
                                                             <input v-else
                                                                    :type="subitem.type"
                                                                    :name="subitem.name"
@@ -113,12 +112,11 @@
                                                                         class="text-xs-center mb-2">{{sub.value}}</h3>
                                                                     <h4 v-else-if="sub.type=='text'"
                                                                         class="text-xs-center mb-2">{{sub.value}}</h4>
-                                                                    <input v-else-if="sub.type=='image'||sub.type=='files'"
-                                                                           type="file"
-                                                                           :name="sub.name"
-                                                                           :required="true"
-                                                                           :value="sub.default"
-                                                                           :placeholder="sub.placeholder"/>
+                                                                    <div v-else-if="sub.type=='image'||sub.type=='files'">
+                                                                        <FileUpload
+                                                                                :name="sub.name">
+                                                                        </FileUpload>
+                                                                    </div>
                                                                     <input v-else
                                                                            :type="sub.type"
                                                                            :name="sub.name"
@@ -154,8 +152,10 @@
 
 <script>
     import { mapState, mapActions, mapMutations } from 'vuex'
+    import FileUpload from "./FileUpload";
     export default {
         name: 'NewItems',
+        components: {FileUpload},
         props: {
             forminfo: {type: Object, required: true},
             formdata: {type: Object, required: true}
@@ -171,15 +171,12 @@
                 let fileUploadFormData = new FormData();
                 fileUploadFormData.append('file', this.file);
 
-                this.uploadFile(fileUploadFormData).then(()=>{
+                // this.uploadFile(fileUploadFormData).then((data)=>{
+                //     console.log('uploaded', data)
                     this.submitNewItem(this.formdata).then(()=>this.$router.push('/itemslist'))
-                })
+                // })
 
                 console.log('save', this.formdata)
-            },
-            handleFileUpload() {
-                console.log(this.$refs.uploadfile[0].files)
-                this.file = this.$refs.uploadfile[0].files;
             },
             saveDraft() {
                 localStorage.setItem('draft', JSON.stringify(this.formdata));

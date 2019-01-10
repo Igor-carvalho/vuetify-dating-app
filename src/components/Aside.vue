@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer  style="margin-top:65px; max-height: 900px;height: 900px"
+    <v-navigation-drawer  style="margin-top:65px; max-height: calc( 100vh - 120px);height: calc( 100vh - 120px)"
             :mini-variant="mini"
             absolute
     >

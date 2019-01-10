@@ -50,12 +50,22 @@ export default {
         })
     },
     uploadFile(context, payload) {
-        axios.post(API_BASE + '/form/123465/upload', payload)
-            .then(({ data }) => {
-                console.log(data)
-                // if (data.success) {
-                //     context.commit('addSubmittedItems', data.data)
-                // }
+        axios.post(API_BASE + '/form/123465/upload', payload.formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: function( progressEvent ) {
+                    let percentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) )
+                    context.commit('setUploadPercentage', percentage)
+                }.bind(this)
             })
+            .then((data)=>{
+                console.log('SUCCESS!!', data.data)
+                context.commit('setPhotoUrl', {url:data.data.filenames[0], formName:payload.formName})
+            })
+            .catch(function(){
+                console.log('FAILURE!!')
+            });
     }
 }

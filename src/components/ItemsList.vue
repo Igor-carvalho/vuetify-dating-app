@@ -7,8 +7,8 @@
             <v-flex xs12 sm6 offset-sm3>
                 <v-card>
                     <v-toolbar color="pink" dark>
-                        <v-toolbar-side-icon></v-toolbar-side-icon>
-                        <v-toolbar-title>Submitted Items</v-toolbar-title>
+                        <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
+                        <!--<v-toolbar-title>Submitted Items</v-toolbar-title>-->
                         <v-spacer></v-spacer>
                         <v-btn icon :to="{path: '/itemslist/new'}">
                             <v-icon>add_circle</v-icon>
@@ -44,6 +44,7 @@
                     </v-list>
                 </v-card>
             </v-flex>
+
         </v-layout>
     </v-container>
 </template>
