@@ -1,6 +1,6 @@
 <template>
     <div>
-        <SubmitForm :forminfo="formdefinition" :formdata="formdata" />
+        <SubmitForm :forminfo="formdefinition" :formdata="currentFormData" />
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
         SubmitForm,
     },
     computed:{
-        ...mapState(['formdefinition', 'formdata']),
+        ...mapState(['formdefinition', 'formdata',]),
         activeTab: {
             get: function () {
                 return this.$store.state.activeTab
@@ -21,6 +21,9 @@ export default {
             set: function (value) {
                 this.$store.commit('setActiveTab', value)
             }
+        },
+        currentFormData() {
+            return localStorage.getItem('draft')?JSON.parse(localStorage.getItem('draft')):this.formdata
         }
     },
     created: function () {

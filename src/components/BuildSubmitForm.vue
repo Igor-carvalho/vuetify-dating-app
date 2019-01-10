@@ -139,6 +139,7 @@
                                         </v-tab-item>
                                     </v-tabs>
                                         <v-btn color="blue darken-1" flat :to="{path: '/itemslist'}">Close</v-btn>
+                                        <v-btn color="blue darken-1" flat @click="saveDraft">Save as draft</v-btn>
                                         <v-btn color="blue darken-1" flat type="submit">Save</v-btn>
                                     </form>
                                 </div>
@@ -176,9 +177,12 @@
 
                 console.log('save', this.formdata)
             },
-            handleFileUpload(){
+            handleFileUpload() {
                 console.log(this.$refs.uploadfile[0].files)
                 this.file = this.$refs.uploadfile[0].files;
+            },
+            saveDraft() {
+                localStorage.setItem('draft', JSON.stringify(this.formdata));
             }
         }
     }
