@@ -14,7 +14,7 @@ const router = new Router({
             name: 'home',
             component: ItemsList
         },{
-            path: '/profile',
+            path: '/userprofile',
             name: 'home',
             component: Home
         },

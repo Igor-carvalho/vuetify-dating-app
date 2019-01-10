@@ -8,18 +8,18 @@
 
         <progress v-if="files" max="100" :value.prop="uploadPercentage"></progress>
 
-        <div v-if="files"  class="file-listing">
-            <div class="img-container">
-                <img class="preview" v-bind:ref="'preview'"/>
-                <br>
-                <span>{{ files.name }}</span>
-            </div>
-            <div class="remove-container">
-                <v-btn class="remove" v-on:click="removeFile( )">Remove</v-btn>
-                <br>
-                <v-btn class="submit-button" v-on:click="submitFiles()">Submit</v-btn>
-            </div>
-        </div>
+        <!--<div v-if="files"  class="file-listing">-->
+            <!--<div class="img-container">-->
+                <!--<img class="preview" v-bind:ref="'preview'"/>-->
+                <!--<br>-->
+                <!--<span>{{ files.name }}</span>-->
+            <!--</div>-->
+            <!--<div class="remove-container">-->
+                <!--<v-btn class="remove" v-on:click="removeFile( )">Remove</v-btn>-->
+                <!--<br>-->
+                <!--<v-btn class="submit-button" v-on:click="submitFiles()">Submit</v-btn>-->
+            <!--</div>-->
+        <!--</div>-->
 
     </div>
 </template>
@@ -83,7 +83,7 @@
                     // }
                     this.files = e.dataTransfer.files[0]
                     this.setUploadPercentage(0)
-                    this.getImagePreviews();
+                    // this.getImagePreviews();
                 }.bind(this));
             }
         },
@@ -98,13 +98,17 @@
                 let files = e.target.files || e.dataTransfer.files;
                 if (!files.length) return;
                 this.files=files[0];
-                this.getImagePreviews();
+                // this.getImagePreviews();
                 this.setUploadPercentage(0)
                 // console.log(e)
                 // for( let i = 0; i < e.dataTransfer.files.length; i++ ){
                 //     this.files.push( e.dataTransfer.files[i] );
                 //     this.getImagePreviews();
                 // }
+
+                let formData = new FormData()
+                formData.append('files', this.files)
+                this.uploadFile({formData:formData, formName:this.name})
             },
             /*
               Determines if the drag and drop functionality is in the

@@ -16,7 +16,7 @@
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
-                    <v-list-tile-title>{{appdefinition.mainNav.title}}</v-list-tile-title>
+                    <v-list-tile-title v-if="appdefinition.mainNav!=undefined">{{appdefinition.mainNav.title}}</v-list-tile-title>
                 </v-list-tile-content>
 
                 <!--<v-list-tile-action>-->
@@ -27,14 +27,14 @@
             </v-list-tile>
         </v-list>
 
-        <v-list v-if="appdefinition.mainNav.items">
+        <v-list v-if="appdefinition.mainNav!=undefined && appdefinition.mainNav.items">
             <v-divider></v-divider>
             <div v-for="(firstLevel, index) in appdefinition.mainNav.items">
                 <v-list-tile v-if="firstLevel.type=='item'" :to="firstLevel.path">
                     <v-list-tile-action>
                         <v-icon>local_offer</v-icon>
                     </v-list-tile-action>
-                    <v-list-tile-title>{{firstLevel.title}}</v-list-tile-title>
+                    <v-list-tile-title v-if="firstLevel!=undefined">{{firstLevel.title}}</v-list-tile-title>
                 </v-list-tile>
 
                 <v-list-group v-if="firstLevel.type=='menu'"
@@ -42,9 +42,9 @@
                     value="true"
                 >
                     <v-list-tile slot="activator">
-                        <v-list-tile-title>{{firstLevel.title}}</v-list-tile-title>
+                        <v-list-tile-title  v-if="firstLevel!=undefined">{{firstLevel.title}}</v-list-tile-title>
                     </v-list-tile>
-
+                    <div v-if="firstLevel!=undefined && firstLevel.items">
                     <div v-for="(secondLevel, secondindex) in firstLevel.items">
                         <v-list-tile v-if="secondLevel.type=='item'"
                                      :key="secondindex"
@@ -52,7 +52,7 @@
                             <v-list-tile-action>
                                 <v-icon>fas {{secondLevel.icon}}</v-icon>
                             </v-list-tile-action>
-                            <v-list-tile-title>{{secondLevel.title}}</v-list-tile-title>
+                            <v-list-tile-title v-if="secondLevel!=undefined">{{secondLevel.title}}</v-list-tile-title>
                         </v-list-tile>
                         <div v-if="secondLevel.type=='menu'">
                             <v-list-group v-if="secondLevel.type=='menu'"
@@ -60,17 +60,17 @@
                                     sub-group
                             >
                                 <v-list-tile slot="activator">
-                                    <v-list-tile-title>{{secondLevel.title}}</v-list-tile-title>
+                                    <v-list-tile-title v-if="secondLevel!=undefined">{{secondLevel.title}}</v-list-tile-title>
                                 </v-list-tile>
 
-                                <div v-if="secondLevel.items">
+                                <div v-if="secondLevel!=undefined && secondLevel.items">
                                     <v-list-tile
                                             v-for="(thirdLevel, thirdindex) in secondLevel.items"
                                             :key="thirdindex"
                                             @click=""
                                             :to="thirdLevel.path"
                                     >
-                                        <v-list-tile-title class="ml-4" v-text="thirdLevel.title"></v-list-tile-title>
+                                        <v-list-tile-title v-if="thirdLevel!=undefined" class="ml-4" v-text="thirdLevel.title"></v-list-tile-title>
                                         <v-list-tile-action>
                                             <v-icon v-text="thirdLevel.icon"></v-icon>
                                         </v-list-tile-action>
@@ -78,6 +78,7 @@
                                 </div>
                             </v-list-group>
                         </div>
+                    </div>
                     </div>
                 </v-list-group>
             </div>
