@@ -13,6 +13,7 @@
       <v-toolbar-title>ListView</v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <v-btn flat :to="{path: '/itemslist/new'}">NEW</v-btn>
     </v-toolbar>
     <ItemsList :itemslist="itemslist" />
   </div>

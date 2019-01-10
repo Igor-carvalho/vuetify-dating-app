@@ -1,13 +1,15 @@
 <template>
     <div class="file-drag-drop">
         <div class="fileForm" ref="imageform">
-            <input hidden type="file" name="files[]" id="imageupload" @change="onImageChange"/>
-            <label for="imageupload" class="upload-label">
-                <span v-if="uploadedImagePath==''"><strong class="choose-file">Choose an Image file</strong></span>
-                <span v-else @click="openImage()">[{{ uploadedImagePath }}]</span>
-                <!--<span> or drag it here</span>-->
-                </label>
-            <!--<span class="drop-files">Drop the files here!</span>-->
+            <input hidden type="file" name="files[]" id="imageupload" @change="onImageChange" multiple />
+            <label for="imageupload" class="upload-label" >
+                <span v-if="uploadedImagePath.length == 0"><strong class="choose-file">Choose an Image file</strong></span>
+                <span v-else>
+                    <ul  ref="imagelist">
+                        <li v-for="(path, index) in uploadedImagePath">[{{path}}]</li>
+                    </ul>
+                </span>
+            </label>
         </div>
         <img hidden @click="openImage()" class="preview" v-bind:ref="'preview'"/>
 
@@ -27,13 +29,12 @@
         data(){
             return {
                 dragAndDropCapable: false,
-                files: '',
+                files: [],
             }
         },
 
         mounted(){
-            this.$store.state.uploadedImagePath = ''
-            console.log('imagepath',this.uploadedImagePath)
+            this.$store.state.uploadedImagePath = []
             // this.uploadedImagePath = ''
 
             /*
@@ -85,20 +86,29 @@
 
         methods: {
             ...mapActions(['uploadImage']),
-            onImageChange(e){
-                let files = e.target.files || e.dataTransfer.files;
-                if (!files.length) return;
-                this.files=files[0];
-                this.getImagePreviews();
+            onImageChange: function(e) {
+                if (this.$refs.imagelist != undefined) {
+                    this.$refs.imagelist.innerHTML =''
+                }
+
+                let uploadfiles = e.target.files || e.dataTransfer.files;
+                if (!uploadfiles.length) return;
+                // this.files=files[0];
+                // this.getImagePreviews();
 
                 // console.log(e)
-                // for( let i = 0; i < e.dataTransfer.files.length; i++ ){
-                //     this.files.push( e.dataTransfer.files[i] );
-                //     this.getImagePreviews();
-                // }
+                for( let i = 0; i < uploadfiles.length; i++ ){
+                    this.files.push( uploadfiles[i] );
+                    // this.getImagePreviews();
+                }
 
                 let formData = new FormData()
-                formData.append('files', this.files)
+                // formData.append('files', this.files)
+                for( let i = 0; i < this.files.length; i++ ){
+                    let file = this.files[i];
+
+                    formData.append('files[' + i + ']', file);
+                }
                 this.uploadImage({formData:formData, formName:this.name})
             },
             /*
@@ -220,17 +230,24 @@
         margin-bottom: 20px;
     }
     .fileForm{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border: 4px dotted dodgerblue;
-        display: block;
         height: 120px;
         width: 200px;
         background: #ccc;
         /*margin: auto;*/
         margin: 20px;
         text-align: center;
-        line-height: 120px;
+        /*line-height: 120px;*/
         border-radius: 5px;
         font-size: 15px;
+    }
+
+    .fileForm ul {
+        list-style: none;
+        padding: 0px;
     }
 
     div.file-listing{

@@ -68,15 +68,23 @@ export default {
     },
     setFileUrl (state, data) {
         // state.submitteditems.push(data)
-        state.formdata[data.formName] = data.url
+        let urls = []
+        for (let url of data.url) {
+            urls.push('['+url+']')
+        }
+        state.formdata[data.formName] = urls.join(',')
         state.uploadedFilePath = data.url
         // console.log('submittedFormdata', state.formdata)
     },
 
     setImageUrl (state, data) {
         // state.submitteditems.push(data)
-        state.formdata[data.formName] = data.url
+        let urls = []
+        for (let url of data.url) {
+            urls.push('['+url+']')
+        }
+        state.formdata[data.formName] = urls.join(',')
         state.uploadedImagePath = data.url
-        // console.log('submittedFormdata', state.formdata)
+        // console.log('submittedFormdata', state.formdata, state.uploadedImagePath)
     },
 }

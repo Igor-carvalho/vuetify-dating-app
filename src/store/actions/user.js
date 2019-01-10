@@ -58,7 +58,7 @@ export default {
             })
             .then((data)=>{
                 console.log('SUCCESS!!', data.data)
-                context.commit('setFileUrl', {url:data.data.filenames[0], formName:payload.formName})
+                context.commit('setFileUrl', {url:data.data.filenames, formName:payload.formName})
             })
             .catch(function(){
                 console.log('FAILURE!!')
@@ -72,8 +72,8 @@ export default {
                 },
             })
             .then((data)=>{
-                console.log('SUCCESS!!', data.data)
-                context.commit('setImageUrl', {url:data.data.filenames[0], formName:payload.formName})
+                // console.log('SUCCESS!!', data.data)
+                context.commit('setImageUrl', {url:data.data.filenames, formName:payload.formName})
             })
             .catch(function(){
                 console.log('FAILURE!!')

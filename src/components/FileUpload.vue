@@ -1,10 +1,14 @@
 <template>
     <div class="file-drag-drop">
         <div class="fileForm" ref="fileform">
-            <input hidden type="file" name="files[]" id="file" @change="onFileChange"/>
+            <input hidden type="file" name="files[]" id="file" @change="onFileChange" multiple/>
             <label for="file" class="upload-label">
-                <span v-if="uploadedFilePath==''"><strong class="choose-file">Choose a file</strong></span>
-                <span v-else @click="openImage()">[{{uploadedFilePath}}</span>
+                <span v-if="uploadedFilePath.length==0"><strong class="choose-file">Choose a file</strong></span>
+                <span v-else >
+                    <ul ref="filelist">
+                        <li v-for="(path, index) in uploadedFilePath">[{{path}}]</li>
+                    </ul>
+                </span>
                 <!--<span> or drag it here</span>-->
             </label>
             <!--<span class="drop-files">Drop the files here!</span>-->
@@ -39,13 +43,12 @@
         data(){
             return {
                 dragAndDropCapable: false,
-                files: '',
-                // uploadPercentage: 0
+                files: [],
             }
         },
 
         mounted(){
-            this.$store.state.uploadedFilePath=''
+            this.$store.state.uploadedFilePath=[]
 
             /*
               Determine if drag and drop functionality is capable in the browser
@@ -96,18 +99,27 @@
         methods: {
             ...mapActions(['uploadFile']),
             onFileChange(e){
-                let files = e.target.files || e.dataTransfer.files;
-                if (!files.length) return;
-                this.files=files[0];
-                this.getImagePreviews();
+                if (this.$refs.filelist != undefined) {
+                    this.$refs.filelist.innerHTML =''
+                }
+
+                let uploadfiles = e.target.files || e.dataTransfer.files;
+                if (!uploadfiles.length) return;
+                // this.files=files[0];
+                // this.getImagePreviews();
                 // console.log(e)
-                // for( let i = 0; i < e.dataTransfer.files.length; i++ ){
-                //     this.files.push( e.dataTransfer.files[i] );
-                //     this.getImagePreviews();
-                // }
+                for( let i = 0; i < uploadfiles.length; i++ ){
+                    this.files.push( uploadfiles[i] );
+                    // this.getImagePreviews();
+                }
 
                 let formData = new FormData()
-                formData.append('files', this.files)
+                // formData.append('files', this.files)
+                for( let i = 0; i < this.files.length; i++ ){
+                    let file = this.files[i];
+
+                    formData.append('files[' + i + ']', file);
+                }
                 this.uploadFile({formData:formData, formName:this.name})
             },
             /*
@@ -228,17 +240,24 @@
         margin-bottom: 20px;
     }
     .fileForm{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         border: 4px dotted dodgerblue;
-        display: block;
         height: 120px;
         width: 200px;
         background: #ccc;
         /*margin: auto;*/
         margin: 20px;
         text-align: center;
-        line-height: 120px;
+        /*line-height: 120px;*/
         border-radius: 5px;
         font-size: 15px;
+    }
+
+    .fileForm ul {
+        list-style: none;
+        padding: 0px;
     }
 
     div.file-listing{
