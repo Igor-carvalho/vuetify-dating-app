@@ -1,29 +1,41 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <v-content>
+            <MainNav></MainNav>
+            <Aside></Aside>
+            <div id="core-view" class="mt-5">
+                <v-fade-transition mode="out-in">
+                    <router-view />
+                </v-fade-transition>
+            </div>
+            <Footer></Footer>
+        </v-content>
     </div>
-    <router-view/>
-  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import { mapActions, mapGetters, mapState } from 'vuex'
+import Footer from '@/components/Footer.vue'
+import MainNav from "./components/MainNav";
+import Aside from "./components/Aside";
+
+export default {
+    components: {
+        Aside,
+        MainNav,
+        Footer
+    },
+    computed: {
+        ...mapGetters(['isLoggedIn']),
+        ...mapState(['appdefinition']),
+    },
+    created() {
+        if (this.isLoggedIn) {
+            // this.loadUserData
+        }
+    },
+    methods: {
+        ...mapActions(['loadUserData','logout'])
     }
-  }
 }
-</style>
+</script>

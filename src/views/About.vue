@@ -1,5 +1,16 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <v-app>
+      <v-toolbar app>
+        <v-toolbar-title>My Application</v-toolbar-title>
+      </v-toolbar>
+      <v-navigation-drawer app></v-navigation-drawer>
+      <v-content>
+        <v-container fluid>
+          Hello World
+        </v-container>
+      </v-content>
+      <v-footer></v-footer>
+    </v-app>
   </div>
 </template>
