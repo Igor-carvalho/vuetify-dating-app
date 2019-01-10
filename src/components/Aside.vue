@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer style="margin-top:65px"
+    <v-navigation-drawer  style="margin-top:65px; max-height: 900px;height: 900px"
             :mini-variant="mini"
             absolute
     >
@@ -30,7 +30,7 @@
         <v-list v-if="appdefinition.mainNav.items">
             <v-divider></v-divider>
             <div v-for="(firstLevel, index) in appdefinition.mainNav.items">
-                <v-list-tile v-if="firstLevel.type=='item'">
+                <v-list-tile v-if="firstLevel.type=='item'" :to="firstLevel.path">
                     <v-list-tile-action>
                         <v-icon>local_offer</v-icon>
                     </v-list-tile-action>
@@ -46,7 +46,9 @@
                     </v-list-tile>
 
                     <div v-for="(secondLevel, secondindex) in firstLevel.items">
-                        <v-list-tile v-if="secondLevel.type=='item'">
+                        <v-list-tile v-if="secondLevel.type=='item'"
+                                     :key="secondindex"
+                                     :to="secondLevel.path">
                             <v-list-tile-action>
                                 <v-icon>fas {{secondLevel.icon}}</v-icon>
                             </v-list-tile-action>
@@ -66,6 +68,7 @@
                                             v-for="(thirdLevel, thirdindex) in secondLevel.items"
                                             :key="thirdindex"
                                             @click=""
+                                            :to="thirdLevel.path"
                                     >
                                         <v-list-tile-title class="ml-4" v-text="thirdLevel.title"></v-list-tile-title>
                                         <v-list-tile-action>

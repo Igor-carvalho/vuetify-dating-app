@@ -62,6 +62,21 @@ const router = new Router({
             component: () => import('./views/NewItem.vue')
         },
         {
+            path: '/form/:id',
+            name: 'formveiw',
+            component: () => import('./views/FormView.vue')
+        },
+        {
+            path: '/list/:id',
+            name: 'listview',
+            component: () => import('./views/ListView.vue')
+        },
+        {
+            path: '/web/:id',
+            name: 'webview',
+            component: () => import('./views/WebView.vue')
+        },
+        {
             path: '*',
             redirect: '/'
         }

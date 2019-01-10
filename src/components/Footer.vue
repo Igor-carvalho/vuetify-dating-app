@@ -1,5 +1,5 @@
 <template>
-    <v-bottom-nav style="position: fixed; bottom:56px">
+    <v-bottom-nav style="position: fixed; bottom:56px;z-index: 10;">
         <div style="flex: unset;width: 120px;">
             <v-btn color="teal" flat value="recent" :to="'/'">
                 <span>Home</span>
