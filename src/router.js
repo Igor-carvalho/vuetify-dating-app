@@ -13,6 +13,10 @@ const router = new Router({
             path: '/',
             name: 'home',
             component: ItemsList
+        },{
+            path: '/profile',
+            name: 'home',
+            component: Home
         },
         {
             path: '/login',

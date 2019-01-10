@@ -3,7 +3,7 @@
         <v-content>
             <MainNav></MainNav>
             <Aside></Aside>
-            <div id="core-view" class="mt-5">
+            <div id="core-view" style="margin: 65px 0px 0px 300px ;">
                 <v-fade-transition mode="out-in">
                     <router-view />
                 </v-fade-transition>
@@ -15,7 +15,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
-import Footer from '@/components/Footer.vue'
+import Footer from './components/Footer.vue'
 import MainNav from "./components/MainNav";
 import Aside from "./components/Aside";
 

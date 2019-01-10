@@ -25,11 +25,10 @@
                     <!--</v-btn>-->
                 <!--</v-list-tile-action>-->
             </v-list-tile>
-            <v-divider></v-divider>
         </v-list>
 
-
         <v-list v-if="appdefinition.mainNav.items">
+            <v-divider></v-divider>
             <div v-for="(firstLevel, index) in appdefinition.mainNav.items">
                 <v-list-tile v-if="firstLevel.type=='item'">
                     <v-list-tile-action>

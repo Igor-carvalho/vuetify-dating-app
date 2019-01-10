@@ -1,5 +1,11 @@
 <template>
     <v-bottom-nav style="position: fixed; bottom:56px">
+        <div style="flex: unset;width: 120px;">
+            <v-btn color="teal" flat value="recent" to="item.path">
+                <span>Home</span>
+                <v-icon class="ma-0" style="font-size: 35px;">home</v-icon>
+            </v-btn>
+        </div>
         <div v-for="(item, index) in appdefinition.bottomNav" style="flex: unset;width: 120px;">
             <v-btn color="teal" flat value="recent" to="item.path">
                 <span>{{item.title}}</span>
