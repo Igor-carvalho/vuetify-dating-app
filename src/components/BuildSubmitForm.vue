@@ -33,7 +33,7 @@
                                                     v-for="(tabInfo, n) in forminfo.tabs"
                                                     :key="n"
                                                     ripple
-                                            >   tabInfo.title
+                                            >   {{tabInfo.title}}
                                             </v-tab>
                                             <v-tab-item
                                                     v-for="(tabInfo, n) in forminfo.tabs"
