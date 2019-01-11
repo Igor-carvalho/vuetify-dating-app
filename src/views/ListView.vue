@@ -13,32 +13,43 @@
       <v-toolbar-title>ListView</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn flat :to="{path: '/itemslist/new'}">NEW</v-btn>
+      <v-btn flat @click="openNew">NEW</v-btn>
     </v-toolbar>
-    <ItemsList :itemslist="itemslist" />
+    <ItemsList :itemslist="submitteditems" />
+    <DraftList v-if="Object.keys(drafts).length>0" :draftlist="drafts" />
   </div>
 </template>
 
 <script>
     import { mapState, mapActions, mapMutations } from 'vuex'
     import ItemsList from '@/components/ItemsList.vue'
+    import DraftList from "../components/DraftList";
 
     export default {
         components: {
+            DraftList,
             ItemsList,
         },
         computed:{
-            ...mapState(['submitteditems', 'submittednewitems']),
+            ...mapState(['submitteditems', 'submittednewitems', 'draftitems']),
             itemslist() {
                 return {...this.submitteditems, ...this.submittednewitems}
+            },
+            drafts() {
+                if (this.draftitems[this.$route.params.id]==undefined)
+                    return []
+                else
+                  return this.draftitems[this.$route.params.id]
             }
         },
         created: function () {
-            this.loadSubmittedItems()
-            console.log(this.itemslist)
+            this.loadSubmittedItems(this.$route.params.id)
         },
         methods: {
-            ...mapActions(['loadSubmittedItems'])
+            ...mapActions(['loadSubmittedItems']),
+            openNew() {
+                this.$router.push('/form/'+this.$route.params.id)
+            }
         }
     }
 </script>

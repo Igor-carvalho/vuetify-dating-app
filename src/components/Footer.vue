@@ -1,17 +1,13 @@
 <template>
-    <v-bottom-nav style="position: fixed; bottom:56px;z-index: 10;">
-        <div style="flex: unset;width: 120px;">
-            <v-btn color="teal" flat value="recent" :to="'/'">
-                <span>Home</span>
-                <v-icon class="ma-0" style="font-size: 35px;">home</v-icon>
-            </v-btn>
-        </div>
-        <div v-for="(item, index) in appdefinition.bottomNav" style="flex: unset;width: 120px;">
-            <v-btn color="teal" flat value="recent" :to="item.path">
-                <span>{{item.title}}</span>
-                <img :src="item.icon" width="30" height="30">
-            </v-btn>
-        </div>
+    <v-bottom-nav fixed style="bottom:56px;z-index: 10;">
+        <v-btn color="teal" flat :to="'/'">
+            <span>Home</span>
+            <v-icon class="ma-0" style="font-size: 35px;">home</v-icon>
+        </v-btn>
+        <v-btn v-for="(item, index) in appdefinition.bottomNav"  color="teal" @click="gotoNewPage(item.path)">
+            <span>{{item.title}}</span>
+            <img :src="item.icon" width="30" height="30"/><v-icon></v-icon>
+        </v-btn>
     </v-bottom-nav>
 </template>
 
@@ -29,7 +25,15 @@
             }
         },
         methods: {
-            ...mapActions(['loadAppDefinition', 'logout'])
+            ...mapActions(['loadAppDefinition', 'logout']),
+            gotoNewPage(path) {
+                if(path.includes('/web/')) {
+                    window.open(path.replace('/web/', ""), '_blank')
+                }
+                else
+                    window.location.href = path
+                // this.$router.push({ path: path })
+            }
         }
     }
 </script>

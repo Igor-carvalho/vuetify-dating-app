@@ -17,14 +17,16 @@
         <div style="margin-top:65px; max-height: calc( 100vh - 120px);height: calc( 100vh - 120px);width: 100%">
             <v-list class="pa-1">
                 <v-list-tile-content>
-                    <v-list-tile-title v-if="appdefinition.mainNav!=undefined">{{appdefinition.mainNav.title}}</v-list-tile-title>
+                    <v-list-tile-title v-if="appdefinition.mainNav!=undefined && appdefinition.mainNav.title!='' && appdefinition.mainNav.title!=null">
+                        {{appdefinition.mainNav.title}}
+                    </v-list-tile-title>
                 </v-list-tile-content>
             </v-list>
 
             <v-list v-if="appdefinition.mainNav!=undefined && appdefinition.mainNav.items">
             <v-divider></v-divider>
             <div v-for="(firstLevel, index) in appdefinition.mainNav.items">
-                <v-list-tile v-if="firstLevel.type=='item'" :to="firstLevel.path">
+                <v-list-tile v-if="firstLevel.type=='item'" @click="gotoNewPage(firstLevel.path)">
                     <v-list-tile-action>
                         <v-icon>local_offer</v-icon>
                     </v-list-tile-action>
@@ -42,7 +44,7 @@
                         <div v-for="(secondLevel, secondindex) in firstLevel.items">
                             <v-list-tile v-if="secondLevel.type=='item'"
                                          :key="secondindex"
-                                         :to="secondLevel.path">
+                                         @click="gotoNewPage(secondLevel.path)">
                                 <v-list-tile-action>
                                     <v-icon>fas {{secondLevel.icon}}</v-icon>
                                 </v-list-tile-action>
@@ -62,7 +64,7 @@
                                                 v-for="(thirdLevel, thirdindex) in secondLevel.items"
                                                 :key="thirdindex"
                                                 @click=""
-                                                :to="thirdLevel.path"
+                                                @click="gotoNewPage(thirdLevel.path)"
                                         >
                                             <v-list-tile-title v-if="thirdLevel!=undefined" class="ml-4" v-text="thirdLevel.title"></v-list-tile-title>
                                             <v-list-tile-action>
@@ -98,7 +100,15 @@
             }
         },
         methods: {
-            ...mapActions(['loadAppDefinition', 'logout'])
+            ...mapActions(['loadAppDefinition', 'logout']),
+            gotoNewPage(path) {
+                if(path.includes('/web/')) {
+                    window.open(path.replace('/web/', ""), '_blank')
+                }
+                else
+                    // window.location.href = path
+                    this.$router.push({ path: path })
+            }
         }
     }
 </script>

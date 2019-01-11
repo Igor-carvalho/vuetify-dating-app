@@ -8,6 +8,9 @@
 export default {
   name: 'WebView',
   components: {
+  },
+  created() {
+      window.open(this.$route.params.id, '_blank')
   }
 }
 </script>

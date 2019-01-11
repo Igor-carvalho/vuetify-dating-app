@@ -1,3 +1,4 @@
+import Vue from 'vue'
 export default {
     setUserData (state, data) {
         state.connections = data.connections
@@ -66,16 +67,6 @@ export default {
         // state.submitteditems.push(data)
         state.submittednewitems = {...state.submittednewitems, data}
     },
-    setFileUrl (state, data) {
-        // state.submitteditems.push(data)
-        let urls = []
-        for (let url of data.url) {
-            urls.push('['+url+']')
-        }
-        state.formdata[data.formName] = urls.join(',')
-        state.uploadedFilePath = data.url
-        // console.log('submittedFormdata', state.formdata)
-    },
 
     setImageUrl (state, data) {
         // state.submitteditems.push(data)
@@ -86,5 +77,18 @@ export default {
         state.formdata[data.formName] = urls.join(',')
         state.uploadedImagePath = data.url
         // console.log('submittedFormdata', state.formdata, state.uploadedImagePath)
+    },
+
+    saveDraft (state, data) {
+        // state.draftitems.push(data)
+        if (state.draftitems[data.listID]==undefined) {
+            let newKey = data.listID + 0
+            Vue.set(state.draftitems, data.listID, {[newKey]: data.draftData})
+        } else {
+            let newKey = data.listID + Object.keys(state.draftitems[data.listID]).length
+            Vue.set(state.draftitems[data.listID], newKey, data.draftData)
+        }
+
+        console.log('draftItems', state.draftitems)
     },
 }

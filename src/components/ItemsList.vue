@@ -1,11 +1,11 @@
 <template>
-    <v-container>
+    <!--<v-container>-->
         <v-layout
                 text-xs-center
                 wrap
         >
-            <v-flex xs12 sm6 offset-sm3>
-                <v-card>
+            <v-flex xs12 sm12 md12>
+                <!--<v-card>-->
                     <v-list two-line>
                         <!--<v-subheader>-->
                             <!--Today-->
@@ -33,11 +33,11 @@
                             ></v-divider>
                         </template>
                     </v-list>
-                </v-card>
+                <!--</v-card>-->
             </v-flex>
 
         </v-layout>
-    </v-container>
+    <!--</v-container>-->
 </template>
 
 

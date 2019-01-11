@@ -37,6 +37,7 @@ export default {
     formdefinition: {},
     appdefinition: {},
     submitteditems: {},
+    draftitems: {},
     formdata: {},
     submittednewitems: {},
     uploadPercentage: 0,

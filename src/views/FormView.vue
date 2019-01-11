@@ -15,7 +15,7 @@
 
       <v-spacer></v-spacer>
     </v-toolbar>
-    <SubmitForm :forminfo="formdefinition" :formdata="currentFormData" />
+    <SubmitForm :forminfo="formdefinition" :formdata="formdata" />
   </div>
 </template>
 
@@ -24,11 +24,12 @@
     import SubmitForm from '@/components/BuildSubmitForm.vue'
 
     export default {
+        name: 'formview',
         components: {
             SubmitForm,
         },
         computed:{
-            ...mapState(['formdefinition', 'formdata',]),
+            ...mapState(['formdefinition', 'formdata']),
             activeTab: {
                 get: function () {
                     return this.$store.state.activeTab
@@ -38,11 +39,12 @@
                 }
             },
             currentFormData() {
-                return localStorage.getItem('draft')?JSON.parse(localStorage.getItem('draft')):this.formdata
+                return this.$store.state.formdata
             }
         },
         created: function () {
-            this.loadFormDefinition()
+            this.loadFormDefinition(this.$route.params.id)
+            // console.log('ukl;',this.$route.params.id)
         },
         methods: {
             ...mapActions(['loadFormDefinition'])
