@@ -67,11 +67,11 @@ const router = new Router({
             name: 'listview',
             component: () => import('./views/ListView.vue')
         },
-        // {
-        //     path: '/web/:id',
-        //     name: 'webview',
-        //     component: () => import('./views/WebView.vue')
-        // },
+        {
+            path: '/web',
+            name: 'webview',
+            component: () => import('./views/WebView.vue')
+        },
         {
             path: '*',
             redirect: '/'

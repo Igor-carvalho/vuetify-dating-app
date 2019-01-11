@@ -28,11 +28,12 @@
             ...mapActions(['loadAppDefinition', 'logout']),
             gotoNewPage(path) {
                 if(path.includes('/web/')) {
-                    window.open(path.replace('/web/', ""), '_blank')
+                    // window.open(path.replace('/web/', ""), '_blank')
+                    this.$router.push({path: '/web', query : { weburl: path.replace('/web/', "")}});
                 }
                 else
-                    window.location.href = path
-                // this.$router.push({ path: path })
+                    // window.location.href = path
+                    this.$router.push({ path: path })
             }
         }
     }
