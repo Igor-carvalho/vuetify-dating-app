@@ -7,9 +7,9 @@
             <v-flex xs12 sm12 md12>
                 <!--<v-card>-->
                     <v-list two-line>
-                        <!--<v-subheader>-->
-                            <!--Today-->
-                        <!--</v-subheader>-->
+                        <v-subheader>
+                            Submitted documents
+                        </v-subheader>
                         <template v-for="(item, index) in itemslist">
                             <v-list-tile
                                     :key="item.title"
@@ -25,7 +25,7 @@
                                     <v-list-tile-sub-title v-html="item.desc"></v-list-tile-sub-title>
                                 </v-list-tile-content>
                                 <v-list-tile-action>
-                                    <v-icon>keyboard_arrow_right</v-icon>
+                                    <v-icon color="teal">chat_bubble</v-icon>
                                 </v-list-tile-action>
                             </v-list-tile>
                             <v-divider

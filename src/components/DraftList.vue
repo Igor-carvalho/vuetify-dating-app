@@ -5,19 +5,7 @@
                 wrap
         >
             <v-flex xs12 sm12 md12>
-                <v-toolbar
-                        color="teal lighten-3"
-                        dark
-                        scroll-off-screen
-                        scroll-target="#scrolling-techniques"
-                >
-                    <!--<img width="30" height="30">-->
-                    <v-toolbar-side-icon></v-toolbar-side-icon>
-
-                    <v-toolbar-title>DraftList</v-toolbar-title>
-
-                    <v-spacer></v-spacer>
-                </v-toolbar>
+                <v-subheader>Draft documents</v-subheader>
                 <v-list two-line>
                     <template v-for="(item, index) in draftlist">
                         <v-list-tile
@@ -26,14 +14,14 @@
                                 @click="openDraft(item)"
                         >
                             <v-list-tile-avatar>
-                                <v-icon>chat</v-icon>
+                                <v-icon>local_offer</v-icon>
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
                                 <v-list-tile-title>Draft</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                                <v-icon>keyboard_arrow_right</v-icon>
+                                <v-icon color="grey">chat_bubble</v-icon>
                             </v-list-tile-action>
                         </v-list-tile>
                         <v-divider
@@ -49,8 +37,10 @@
 
 
 <script>
+    import VSubheader from "vuetify/lib/components/VSubheader/VSubheader";
     export default {
         name: 'DraftList',
+        components: {VSubheader},
         props: {
             draftlist: { required: true }
         },

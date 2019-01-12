@@ -20,6 +20,8 @@ Vue.use(Vuetify)
 
 Vue.use(auth)
 
+Vue.use(require('vue-moment'));
+
 Vue.use(fb, {
     appId            : '169849697193499',
     autoLogAppEvents : true,

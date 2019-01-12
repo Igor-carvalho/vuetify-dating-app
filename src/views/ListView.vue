@@ -24,9 +24,11 @@
     import { mapState, mapActions, mapMutations } from 'vuex'
     import ItemsList from '@/components/ItemsList.vue'
     import DraftList from "../components/DraftList";
+    import VSelect from "vuetify/lib/components/VSelect/VSelect";
 
     export default {
         components: {
+            VSelect,
             DraftList,
             ItemsList,
         },

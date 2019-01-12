@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <v-app>
         <v-content>
             <!--<Aside></Aside>-->
             <div style="margin: 65px 0px 65px 0px ;">
@@ -9,6 +10,7 @@
             </div>
             <Footer></Footer>
         </v-content>
+        </v-app>
     </div>
 </template>
 
