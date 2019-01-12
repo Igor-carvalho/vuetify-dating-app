@@ -39,18 +39,20 @@ export default {
     },
     setFormData(state, data) {
         state.formdefinition = data
-        for (let field of data.fields ) {
-            state.formdata[field.name] = null
-        }
-        for (let index in data.tabs ) {
-            for (let tabfield of data.tabs[index].fields) {
-                if (tabfield.name != undefined) {
+        if(state.formdata ==null) {
+            for (let field of data.fields) {
+                state.formdata[field.name] = null
+            }
+            for (let index in data.tabs) {
+                for (let tabfield of data.tabs[index].fields) {
+                    if (tabfield.name != undefined) {
                         state.formdata[tabfield.name] = null
-                } else {
-                    for (let subindex in tabfield) {
-                        let subtab = tabfield[subindex]
-                        if (subtab.name != undefined) {
-                            state.formdata[subtab.name] = null
+                    } else {
+                        for (let subindex in tabfield) {
+                            let subtab = tabfield[subindex]
+                            if (subtab.name != undefined) {
+                                state.formdata[subtab.name] = null
+                            }
                         }
                     }
                 }
@@ -81,14 +83,21 @@ export default {
 
     saveDraft (state, data) {
         // state.draftitems.push(data)
-        if (state.draftitems[data.listID]==undefined) {
-            let newKey = data.listID + 0
-            Vue.set(state.draftitems, data.listID, {[newKey]: data.draftData})
+        if (data.draftID == '') {
+            if (state.draftitems[data.listID] == undefined) {
+                let newKey = data.listID + 0
+                Vue.set(state.draftitems, data.listID, {[newKey]: data.draftData})
+            } else {
+                let newKey = data.listID + Object.keys(state.draftitems[data.listID]).length
+                Vue.set(state.draftitems[data.listID], newKey, data.draftData)
+            }
         } else {
-            let newKey = data.listID + Object.keys(state.draftitems[data.listID]).length
-            Vue.set(state.draftitems[data.listID], newKey, data.draftData)
+            if (state.draftitems[data.listID] == undefined) {
+                Vue.set(state.draftitems, data.listID, {[data.draftID]: data.draftData})
+            } else
+                state.draftitems[data.listID][data.draftID] = data.draftData
         }
 
-        console.log('draftItems', state.draftitems)
+        console.log('draftItems', state.draftitems[data.listID])
     },
 }

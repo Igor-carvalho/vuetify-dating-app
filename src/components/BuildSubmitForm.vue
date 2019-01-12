@@ -49,7 +49,6 @@
                                             <v-menu  v-else-if="item.type=='datetime'"
                                                      :close-on-content-click="false"
                                                      :nudge-right="40"
-                                                     :return-value.sync="time"
                                                      lazy
                                                      transition="scale-transition"
                                                      offset-y
@@ -136,7 +135,6 @@
                                                                     <v-menu  v-else-if="subitem.type=='datetime'"
                                                                              :close-on-content-click="false"
                                                                              :nudge-right="40"
-                                                                             :return-value.sync="time"
                                                                              lazy
                                                                              transition="scale-transition"
                                                                              offset-y
@@ -188,7 +186,8 @@
                                                                            :max="subitem.max"
                                                                            :step="subitem.step"
                                                                            :placeholder="subitem.placeholder"
-                                                                           v-model="formdata[subitem.name]"/>
+                                                                           v-model="formdata[subitem.name]"
+                                                                           />
                                                                 </div>
                                                             </div>
                                                             <div v-if="subitem.length > 0 ">
@@ -237,7 +236,6 @@
                                                                         <v-menu  v-else-if="sub.type=='datetime'"
                                                                                  :close-on-content-click="false"
                                                                                  :nudge-right="40"
-                                                                                 :return-value.sync="time"
                                                                                  lazy
                                                                                  transition="scale-transition"
                                                                                  offset-y
@@ -314,52 +312,47 @@
     import {mapState, mapActions, mapMutations} from 'vuex'
     import FileUpload from "./FileUpload";
     import ImageUpload from "./ImageUpload";
-    // import { moment } from 'vue-moment'
 
     export default {
         name: 'NewItems',
         components: {ImageUpload, FileUpload},
         props: {
             forminfo: {type: Object, required: true},
-            formdata: {type: Object, required: true}
         },
         data() {
             return {
                 file: '',
             }
         },
+        computed: {
+            ...mapState(['draftitems', 'formdata']),
+        },
         methods: {
-            ...mapActions(['submitNewItem', 'uploadFile']),
+            ...mapActions(['submitNewItem']),
             ...mapMutations(['saveDraft']),
             submitNewForm() {
                 let fileUploadFormData = new FormData();
                 fileUploadFormData.append('file', this.file);
 
-                // this.uploadFile(fileUploadFormData).then((data)=>{
-                //     console.log('uploaded', data)
                 this.submitNewItem(this.formdata).then(() => {
                     // this.$router.push('/itemslist')
                     // this.$refs.submitform.reset()
-                    // for (let i in this.$store.state.formdata) {
-                    //     this.$store.state.formdata[i]=null
-                    // }
-                    location.reload()
+                    this.$store.state.submitted = true
+
+                    for (let indexKey of Object.keys(this.formdata)){
+                        this.$store.state.formdata[indexKey] = null
+                    }
+
+                    console.log(this.formdata)
+
                 })
-                // })
 
                 console.log('save', this.formdata)
             },
             saveNewDraft() {
-                this.saveDraft({listID: this.$route.params.id, draftData: this.formdata})
-                // localStorage.setItem('draft', JSON.stringify(this.formdata));
+                this.saveDraft({listID: this.$route.params.id, draftData: this.formdata, draftID: this.$store.state.draftid})
+
                 this.$router.push('/list/' + this.$route.params.id)
-            },
-            formatDate (date, format) {
-                if (!date) return null
-
-
-                const [year, month, day] = date.split('-')
-                return `${month}/${day}/${year}`
             },
         }
     }

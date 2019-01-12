@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Aside from './components/Aside.vue'
+import ListView from './views/ListView.vue'
 import store from '@/store'
 
 Vue.use(Router)
@@ -60,12 +61,12 @@ const router = new Router({
         {
             path: '/form/:id',
             name: 'formveiw',
-            component: () => import('./views/FormView.vue')
+            component: () => import('./views/FormView.vue'),
         },
         {
             path: '/list/:id',
             name: 'listview',
-            component: () => import('./views/ListView.vue')
+            component: ListView
         },
         {
             path: '/web',

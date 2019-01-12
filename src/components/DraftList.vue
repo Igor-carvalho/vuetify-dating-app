@@ -4,21 +4,20 @@
                 text-xs-center
                 wrap
         >
-            <v-flex xs12 sm12 md12>
+            <v-flex xs12 sm12 md12 v-if="draftitems[$route.params.id]!=undefined && Object.keys(draftitems[$route.params.id]).length>0">
                 <v-subheader>Draft documents</v-subheader>
                 <v-list two-line>
-                    <template v-for="(item, index) in draftlist">
+                    <template v-for="(item, index) in draftitems[$route.params.id]">
                         <v-list-tile
-                                :key="item.title"
                                 avatar
-                                @click="openDraft(item)"
+                                @click="openDraft(item, index)"
                         >
                             <v-list-tile-avatar>
                                 <v-icon>local_offer</v-icon>
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                <v-list-tile-title>Draft</v-list-tile-title>
+                                <v-list-tile-title>Draft_{{index}}</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-icon color="grey">chat_bubble</v-icon>
@@ -37,17 +36,19 @@
 
 
 <script>
+    import { mapMutations, mapState} from 'vuex'
     import VSubheader from "vuetify/lib/components/VSubheader/VSubheader";
     export default {
         name: 'DraftList',
         components: {VSubheader},
-        props: {
-            draftlist: { required: true }
+        computed: {
+            ...mapState(['draftitems']),
         },
         methods: {
-            openDraft(draftData) {
+            openDraft(draftData, index) {
                 this.$store.state.formdata=draftData
-                this.$router.push('/form/'+this.$route.params.id)
+                this.$store.state.draftid=index
+                this.$router.push({path:'/form/'+this.$route.params.id})
             }
         }
     }

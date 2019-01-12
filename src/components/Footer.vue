@@ -30,10 +30,10 @@
                 if(path.includes('/web/')) {
                     // window.open(path.replace('/web/', ""), '_blank')
                     this.$router.push({path: '/web', query : { weburl: path.replace('/web/', "")}});
-                }
-                else
+                } else {
                     // window.location.href = path
                     this.$router.push({ path: path })
+                }
             }
         }
     }

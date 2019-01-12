@@ -3,7 +3,8 @@
         <div class="fileForm">
             <input hidden type="file" name="files[]" :id="'file'+name" @change="onFileChange" multiple/>
             <label :for="'file'+name" class="upload-label">
-                <span v-if="filePaths.length==0"><strong class="choose-file">Choose a file</strong></span>
+                <!--<span v-if="resetForm==true "><strong class="choose-file">Choose a file</strong></span>-->
+                <span v-if="filePaths.length==0 "><strong class="choose-file">Choose a file</strong></span>
                 <span v-else>
                     <ul>
                         <!--<li v-for="(path, index) in uploadedFilePath[name]">[{{path}}]</li>-->
@@ -20,6 +21,7 @@
     import appConfig from '@/app.config.js'
 
     const API_BASE = appConfig.API_BASE
+    import {mapState} from 'vuex'
 
     export default {
         props: {
@@ -32,7 +34,17 @@
                 filePaths: []
             }
         },
-        mounted(){
+        computed: {
+            ...mapState(['submitted'])
+        },
+        watch: {
+            'submitted': function () {
+                console.log('submitted?', this.submitted)
+                if (this.submitted)
+                    this.filePaths = []
+            }
+        },
+        created(){
             // this.$store.state.uploadedFilePath[this.name]=[]
             if (this.filenames!=null) {
                 this.filePaths = this.filenames.split(',')
@@ -42,6 +54,7 @@
 
         methods: {
             onFileChange(e){
+                this.$store.state.submitted=false
                 let uploadfiles = e.target.files || e.dataTransfer.files;
                 if (!uploadfiles.length) return;
                 // this.files=files[0];

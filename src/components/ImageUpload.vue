@@ -38,14 +38,21 @@
                 filePaths: []
             }
         },
+        computed: {
+            ...mapState(['submitted'])
+        },
+        watch: {
+            'submitted': function () {
+                if (this.submitted)
+                    this.filePaths = []
+            }
+        },
 
-        mounted(){
-            // this.$store.state.uploadedImagePath = []
+        created(){
             if (this.filenames!=null) {
                 this.filePaths = this.filenames.split(',')
             } else
                 this.filePaths =[]
-            // this.uploadedImagePath = ''
 
             /*
               Determine if drag and drop functionality is capable in the browser
@@ -89,9 +96,6 @@
             //         this.getImagePreviews();
             //     }.bind(this));
             // }
-        },
-        computed:{
-            ...mapState(['uploadedImagePath']),
         },
 
         methods: {

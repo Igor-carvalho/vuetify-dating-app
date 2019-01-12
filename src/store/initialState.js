@@ -41,6 +41,8 @@ export default {
     formdata: {},
     submittednewitems: {},
     uploadPercentage: 0,
-    uploadedFilePath: [],
-    uploadedImagePath: []
+    uploadedFilePaths: [],
+    uploadedImagePaths: [],
+    submitted: false,
+    draftid: ''
 }

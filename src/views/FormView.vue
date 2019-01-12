@@ -15,7 +15,7 @@
 
       <v-spacer></v-spacer>
     </v-toolbar>
-    <SubmitForm :forminfo="formdefinition" :formdata="formdata" />
+    <SubmitForm :forminfo="formdefinition" />
   </div>
 </template>
 
@@ -29,7 +29,7 @@
             SubmitForm,
         },
         computed:{
-            ...mapState(['formdefinition', 'formdata']),
+            ...mapState(['formdefinition']),
             activeTab: {
                 get: function () {
                     return this.$store.state.activeTab
@@ -38,13 +38,9 @@
                     this.$store.commit('setActiveTab', value)
                 }
             },
-            currentFormData() {
-                return this.$store.state.formdata
-            }
         },
         created: function () {
             this.loadFormDefinition(this.$route.params.id)
-            // console.log('ukl;',this.$route.params.id)
         },
         methods: {
             ...mapActions(['loadFormDefinition'])

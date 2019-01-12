@@ -16,7 +16,7 @@
       <v-btn flat @click="openNew">NEW</v-btn>
     </v-toolbar>
     <ItemsList :itemslist="submitteditems" />
-    <DraftList v-if="Object.keys(drafts).length>0" :draftlist="drafts" />
+    <DraftList/>
   </div>
 </template>
 
@@ -27,29 +27,29 @@
     import VSelect from "vuetify/lib/components/VSelect/VSelect";
 
     export default {
+        name: 'ListView',
         components: {
             VSelect,
             DraftList,
             ItemsList,
         },
         computed:{
-            ...mapState(['submitteditems', 'submittednewitems', 'draftitems']),
+            ...mapState(['submitteditems', 'submittednewitems']),
             itemslist() {
                 return {...this.submitteditems, ...this.submittednewitems}
             },
-            drafts() {
-                if (this.draftitems[this.$route.params.id]==undefined)
-                    return []
-                else
-                  return this.draftitems[this.$route.params.id]
-            }
         },
         created: function () {
+            this.loadSubmittedItems(this.$route.params.id)
+        },
+        updated: function () {
             this.loadSubmittedItems(this.$route.params.id)
         },
         methods: {
             ...mapActions(['loadSubmittedItems']),
             openNew() {
+                this.$store.state.formdata = {}
+                this.$store.state.draftid=''
                 this.$router.push('/form/'+this.$route.params.id)
             }
         }
