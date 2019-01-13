@@ -44,5 +44,6 @@ export default {
     uploadedFilePaths: [],
     uploadedImagePaths: [],
     submitted: false,
-    draftid: ''
+    draftid: '',
+    visitedList: false
 }

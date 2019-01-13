@@ -39,7 +39,7 @@
         },
         watch: {
             'submitted': function () {
-                console.log('submitted?', this.submitted)
+                // console.log('submitted?', this.submitted)
                 if (this.submitted)
                     this.filePaths = []
             }

@@ -8,10 +8,11 @@
             scroll-target="#scrolling-techniques"
             style="position: fixed"
     >
-      <!--<img width="30" height="30">-->
-      <v-toolbar-side-icon></v-toolbar-side-icon>
 
-      <v-toolbar-title>{{submitteditems.title}}</v-toolbar-title>
+      <v-toolbar-title>
+        <v-btn flat :to="'/home'"><v-icon dark left>arrow_back</v-icon></v-btn>
+        {{submitteditems.title}}
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn flat @click="openNew">NEW</v-btn>
@@ -25,25 +26,22 @@
     import { mapState, mapActions, mapMutations } from 'vuex'
     import ItemsList from '@/components/ItemsList.vue'
     import DraftList from "../components/DraftList";
-    import VSelect from "vuetify/lib/components/VSelect/VSelect";
 
     export default {
         name: 'ListView',
         components: {
-            VSelect,
             DraftList,
             ItemsList,
         },
         computed:{
-            ...mapState(['submitteditems', 'submittednewitems']),
-            itemslist() {
-                return {...this.submitteditems, ...this.submittednewitems}
-            },
+            ...mapState(['submitteditems', 'submittednewitems', 'visitedList']),
+        },
+        watch: {
+            'visitedList': function () {
+                this.loadSubmittedItems(this.$route.params.id)
+            }
         },
         created: function () {
-            this.loadSubmittedItems(this.$route.params.id)
-        },
-        mounted: function () {
             this.loadSubmittedItems(this.$route.params.id)
         },
         methods: {

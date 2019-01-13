@@ -278,6 +278,15 @@
                                                                                     :filenames="formdata[sub.name]">
                                                                             </FileUpload>
                                                                         </div>
+                                                                        <div v-else-if="sub.type=='currency'">
+                                                                            <v-text-field
+                                                                                    type="number"
+                                                                                    v-model="formdata[sub.name]"
+                                                                                    outline
+                                                                                    min="0"
+                                                                                    height=35
+                                                                            ></v-text-field>
+                                                                        </div>
                                                                         <input v-else
                                                                                :type="sub.type"
                                                                                :name="sub.name"
@@ -378,6 +387,7 @@
     .v-input__slot,.v-select__selections {
         min-height: 30px !important;
         margin-bottom: 0px;
+        border: 1px solid #ccc !important;
     }
     .v-input__append-inner{
         margin-top: 5px !important;
