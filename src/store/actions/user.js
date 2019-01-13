@@ -37,7 +37,7 @@ export default {
     loadSubmittedItems(context, payload) {
         axios.get(API_BASE + '/form/'+payload+'/list').then(({ data }) => {
             if (data.success) {
-                context.commit('setSubmittedItems', data.items)
+                context.commit('setSubmittedItems', data)
             }
         })
     },

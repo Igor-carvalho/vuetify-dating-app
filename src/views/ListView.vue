@@ -11,12 +11,12 @@
       <!--<img width="30" height="30">-->
       <v-toolbar-side-icon></v-toolbar-side-icon>
 
-      <v-toolbar-title>ListView</v-toolbar-title>
+      <v-toolbar-title>{{submitteditems.title}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn flat @click="openNew">NEW</v-btn>
     </v-toolbar>
-    <ItemsList :itemslist="submitteditems" />
+    <ItemsList :itemslist="submitteditems.items" />
     <DraftList/>
   </div>
 </template>
@@ -43,7 +43,7 @@
         created: function () {
             this.loadSubmittedItems(this.$route.params.id)
         },
-        updated: function () {
+        mounted: function () {
             this.loadSubmittedItems(this.$route.params.id)
         },
         methods: {
