@@ -36,7 +36,7 @@
                 </v-list-tile>
 
                 <v-list-group v-if="firstLevel.type=='menu'"
-                    value="true"
+                    value="false"
                 >
                     <v-list-tile slot="activator">
                         <v-list-tile-action  v-if="firstLevel!=undefined && firstLevel.logo!=undefined"  class="flex align-center justify-center">
@@ -63,6 +63,7 @@
                                 <v-list-group v-if="secondLevel.type=='menu'"
                                         no-action
                                         sub-group
+                                        value="false"
                                 >
                                     <v-list-tile slot="activator">
                                         <v-list-tile-action  v-if="secondLevel!=undefined && secondLevel.logo!=undefined"  class="flex align-center justify-center">

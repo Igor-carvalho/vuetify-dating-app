@@ -4,7 +4,7 @@
             <span>Home</span>
             <v-icon class="ma-0" style="font-size: 35px;">home</v-icon>
         </v-btn>
-        <v-btn v-for="(item, index) in appdefinition.bottomNav"  color="teal" @click="gotoNewPage(item.path)">
+        <v-btn v-for="(item) in appdefinition.bottomNav"  color="teal" @click="gotoNewPage(item.path)">
             <span>{{item.title}}</span>
             <img :src="item.icon" width="30" height="30"/><v-icon></v-icon>
         </v-btn>

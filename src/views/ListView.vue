@@ -6,6 +6,7 @@
             dark
             scroll-off-screen
             scroll-target="#scrolling-techniques"
+            style="position: fixed"
     >
       <!--<img width="30" height="30">-->
       <v-toolbar-side-icon></v-toolbar-side-icon>
