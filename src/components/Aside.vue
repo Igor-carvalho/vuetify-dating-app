@@ -6,6 +6,7 @@
                 dark
                 scroll-off-screen
                 scroll-target="#scrolling-techniques"
+                style="position: fixed"
         >
             <img :src="appdefinition.logo" width="30" height="30">
 
