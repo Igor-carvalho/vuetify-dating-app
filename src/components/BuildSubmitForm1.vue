@@ -16,7 +16,7 @@
                                 <div v-if="forminfo.fields" style="width: 100%">
                                     <form class="" @submit.prevent="submitNewForm" ref="submitform">
                                         <div v-for="(item, index) in forminfo.fields">
-                                            <span v-if="item.title && item.type!='checkbox' && item.type!='toggle'">{{ item.title }}</span><br>
+                                            <span v-if="item.title">{{ item.title }}</span><br>
                                             <v-select v-if="item.type=='select'"
                                                       height=35
                                                       :items="item.options"
@@ -69,32 +69,7 @@
                                                         full-width
                                                 ></v-time-picker>
                                             </v-menu>
-                                            <div v-else-if="item.type=='image'">
-                                                <ImageUpload :name="item.name"
-                                                             :filenames="formdata[item.name]"></ImageUpload>
-                                            </div>
-                                            <div v-else-if="item.type=='files'">
-                                                <FileUpload
-                                                        :name="item.name"
-                                                        :filenames="formdata[item.name]">
-                                                </FileUpload>
-                                            </div>
-                                            <v-flex v-else-if="item.type=='checkbox'||item.type=='toggle'">
-                                                <input style="width: auto;transform: scale(1.5);"
-                                                       type="checkbox"
-                                                       :value="item.title"
-                                                       :name="item.name"
-                                                       :required="item.required"
-                                                       :placeholder="item.placeholder"
-                                                       v-model="formdata[item.name]">
-                                                <span v-if="item.title"> {{ item.title }}<br></span>
-                                            </v-flex>
-                                            <h3 v-else-if="item.type=='heading'"
-                                                class="text-xs-center mb-2">
-                                                {{item.value}}</h3>
-                                            <h4 v-else-if="item.type=='text'"
-                                                class="text-xs-center mb-2">
-                                                {{item.value}}</h4>
+
                                             <input v-else :type="item.type" :name="item.name" :required="item.required"
                                                    :value="item.value"
                                                    v-model="formdata[item.name]"/>
