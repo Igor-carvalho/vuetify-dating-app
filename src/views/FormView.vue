@@ -8,10 +8,10 @@
                 scroll-target="#scrolling-techniques"
                 style="position: fixed"
         >
-            <!--<img width="30" height="30">-->
-            <v-icon>account_box</v-icon>
-
-            <v-toolbar-title>FormView</v-toolbar-title>
+            <v-toolbar-title>
+                <v-btn flat :to="'/list/'+$route.params.id"><v-icon dark left>arrow_back</v-icon></v-btn>
+                {{getFormInfo().title}}
+            </v-toolbar-title>
 
             <v-spacer></v-spacer>
         </v-toolbar>

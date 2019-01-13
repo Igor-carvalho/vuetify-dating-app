@@ -5,7 +5,7 @@
                 <v-card>
                     <v-card-title class="text-xs-center mb-0 pb-0">
                         <v-flex xs12 sm12 md12>
-                            <span v-if="forminfo.title" class="headline">{{forminfo.title}}</span>
+                            <img v-if="forminfo.logo" :src="forminfo.logo" width="120" height="120"></img>
                             <br>
                             <span v-if="forminfo.intro" class="subheading">{{forminfo.intro}}</span>
                         </v-flex>
@@ -100,7 +100,7 @@
                                                    v-model="formdata[item.name]"/>
                                         </div>
 
-                                        <v-tabs v-if="forminfo.tabs" dark  ref="tabsRef">
+                                        <v-tabs v-if="forminfo.tabs" light ref="tabsRef">
                                             <v-tab
                                                     v-for="(tabInfo, n) in forminfo.tabs"
                                                     :key="n"
@@ -215,8 +215,10 @@
                                                                            />
                                                                 </div>
                                                             </div>
-                                                            <div v-if="subitem.length > 0 ">
-                                                                <div v-for="(sub, subN) in subitem">
+                                                            <div v-if="subitem.length > 0 " class="d-flex align-center justify-center subTab">
+                                                                <div v-for="(sub, subN) in subitem" class="d-flex align-center justify-center ">
+                                                                    <span v-if="sub.title && sub.type!='checkbox'&& sub.type!='toggle'">{{ sub.title }}</span>
+
                                                                     <v-flex v-if="sub.type=='checkbox'||sub.type=='toggle'">
                                                                         <input style="width: auto;transform: scale(1.5);"
                                                                                type="checkbox"
@@ -224,104 +226,101 @@
                                                                                :required="sub.required"
                                                                                :placeholder="sub.placeholder"
                                                                                v-model="formdata[sub.name]">
-                                                                        <span v-if="sub.title"> {{ sub.title }}<br></span>
+                                                                        <span v-if="sub.title"> {{ sub.title }}</span>
                                                                     </v-flex>
-                                                                    <div v-else>
-                                                                        <span v-if="sub.title">{{ sub.title }}<br></span>
+                                                                    <v-select v-else-if="sub.type=='select'"
+                                                                              height=35
+                                                                              :items="sub.options"
+                                                                              item-text="title"
+                                                                              item-value="value"
+                                                                              outline
+                                                                              single-line
+                                                                              v-model="formdata[sub.name]"
+                                                                    ></v-select>
 
-                                                                        <v-select v-if="sub.type=='select'"
-                                                                                  height=35
-                                                                                  :items="sub.options"
-                                                                                  item-text="title"
-                                                                                  item-value="value"
-                                                                                  outline
-                                                                                  single-line
-                                                                                  v-model="formdata[sub.name]"
-                                                                        ></v-select>
+                                                                    <v-menu  v-else-if="sub.type=='date'"
+                                                                             :close-on-content-click="true"
+                                                                             :nudge-right="40"
+                                                                             lazy
+                                                                             transition="scale-transition"
+                                                                             full-width
+                                                                             min-width="290px"
+                                                                    >
+                                                                        <v-text-field
+                                                                                slot="activator"
+                                                                                readonly
+                                                                                outline
+                                                                                height=35
+                                                                                :value=" formdata[sub.name] | moment(sub.format)"
+                                                                        ></v-text-field>
+                                                                        <v-date-picker
+                                                                                v-model="formdata[sub.name]" no-title ></v-date-picker>
+                                                                    </v-menu>
 
-                                                                        <v-menu  v-else-if="sub.type=='date'"
-                                                                                 :close-on-content-click="true"
-                                                                                 :nudge-right="40"
-                                                                                 lazy
-                                                                                 transition="scale-transition"
-                                                                                 full-width
-                                                                                 min-width="290px"
-                                                                        >
-                                                                            <v-text-field
-                                                                                    slot="activator"
-                                                                                    readonly
-                                                                                    outline
-                                                                                    height=35
-                                                                                    :value=" formdata[sub.name] | moment(sub.format)"
-                                                                            ></v-text-field>
-                                                                            <v-date-picker
-                                                                                    v-model="formdata[sub.name]" no-title ></v-date-picker>
-                                                                        </v-menu>
+                                                                    <v-menu  v-else-if="sub.type=='datetime'"
+                                                                             :close-on-content-click="false"
+                                                                             :nudge-right="40"
+                                                                             lazy
+                                                                             transition="scale-transition"
+                                                                             offset-y
+                                                                             full-width
+                                                                             max-width="290px"
+                                                                             min-width="290px"
+                                                                    >
+                                                                        <v-text-field
+                                                                                slot="activator"
+                                                                                v-model="formdata[sub.name]"
+                                                                                prepend-icon="access_time"
+                                                                                readonly
+                                                                                outline
+                                                                                height=35
+                                                                        ></v-text-field>
+                                                                        <v-time-picker
+                                                                                v-model="formdata[sub.name]"
+                                                                                full-width
+                                                                        ></v-time-picker>
+                                                                    </v-menu>
 
-                                                                        <v-menu  v-else-if="sub.type=='datetime'"
-                                                                                 :close-on-content-click="false"
-                                                                                 :nudge-right="40"
-                                                                                 lazy
-                                                                                 transition="scale-transition"
-                                                                                 offset-y
-                                                                                 full-width
-                                                                                 max-width="290px"
-                                                                                 min-width="290px"
-                                                                        >
-                                                                            <v-text-field
-                                                                                    slot="activator"
-                                                                                    v-model="formdata[sub.name]"
-                                                                                    prepend-icon="access_time"
-                                                                                    readonly
-                                                                                    outline
-                                                                                    height=35
-                                                                            ></v-text-field>
-                                                                            <v-time-picker
-                                                                                    v-model="formdata[sub.name]"
-                                                                                    full-width
-                                                                            ></v-time-picker>
-                                                                        </v-menu>
-
-                                                                        <textarea v-else-if="sub.type=='textarea'"
-                                                                                  :name="sub.name"
-                                                                                  :placeholder="sub.placeholder"
-                                                                                  v-model="formdata[sub.name]">
-                                                                        </textarea>
-                                                                        <h3 v-else-if="sub.type=='heading'"
-                                                                            class="text-xs-center mb-2">
-                                                                            {{sub.value}}</h3>
-                                                                        <h4 v-else-if="sub.type=='text'"
-                                                                            class="text-xs-center mb-2">
-                                                                            {{sub.value}}</h4>
-                                                                        <div v-else-if="sub.type=='image'">
-                                                                            <ImageUpload :name="sub.name"
-                                                                                         :filenames="formdata[sub.name]"></ImageUpload>
-                                                                        </div>
-                                                                        <div v-else-if="sub.type=='files'">
-                                                                            <FileUpload
-                                                                                    :name="sub.name"
-                                                                                    :filenames="formdata[sub.name]">
-                                                                            </FileUpload>
-                                                                        </div>
-                                                                        <div v-else-if="sub.type=='currency'">
-                                                                            <v-text-field
-                                                                                    type="number"
-                                                                                    v-model="formdata[sub.name]"
-                                                                                    outline
-                                                                                    min="0"
-                                                                                    height=35
-                                                                            ></v-text-field>
-                                                                        </div>
-                                                                        <input v-else
-                                                                               :type="sub.type"
-                                                                               :name="sub.name"
-                                                                               :value="sub.default"
-                                                                               :min="sub.min"
-                                                                               :max="sub.max"
-                                                                               :step="sub.step"
-                                                                               :placeholder="sub.placeholder"
-                                                                               v-model="formdata[sub.name]"/>
+                                                                    <textarea v-else-if="sub.type=='textarea'"
+                                                                              :name="sub.name"
+                                                                              :placeholder="sub.placeholder"
+                                                                              v-model="formdata[sub.name]">
+                                                                    </textarea>
+                                                                    <h3 v-else-if="sub.type=='heading'"
+                                                                        class="text-xs-center mb-2">
+                                                                        {{sub.value}}</h3>
+                                                                    <h4 v-else-if="sub.type=='text'"
+                                                                        class="text-xs-center mb-2">
+                                                                        {{sub.value}}</h4>
+                                                                    <div v-else-if="sub.type=='image'">
+                                                                        <ImageUpload :name="sub.name"
+                                                                                     :filenames="formdata[sub.name]"></ImageUpload>
                                                                     </div>
+                                                                    <div v-else-if="sub.type=='files'">
+                                                                        <FileUpload
+                                                                                :name="sub.name"
+                                                                                :filenames="formdata[sub.name]">
+                                                                        </FileUpload>
+                                                                    </div>
+                                                                    <div v-else-if="sub.type=='currency'">
+                                                                        <v-text-field
+                                                                                type="number"
+                                                                                v-model="formdata[sub.name]"
+                                                                                outline
+                                                                                min="0"
+                                                                                height=35
+                                                                                hide-details
+                                                                        ></v-text-field>
+                                                                    </div>
+                                                                    <input v-else
+                                                                           :type="sub.type"
+                                                                           :name="sub.name"
+                                                                           :value="sub.default"
+                                                                           :min="sub.min"
+                                                                           :max="sub.max"
+                                                                           :step="sub.step"
+                                                                           :placeholder="sub.placeholder"
+                                                                           v-model="formdata[sub.name]"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -353,11 +352,6 @@
         props: {
             forminfo: {type: Object, required: true},
         },
-        data() {
-            return {
-                file: '',
-            }
-        },
         computed: {
             ...mapState(['draftitems', 'formdata']),
         },
@@ -365,23 +359,9 @@
             ...mapActions(['submitNewItem']),
             ...mapMutations(['saveDraft']),
             submitNewForm() {
-                let fileUploadFormData = new FormData();
-                fileUploadFormData.append('file', this.file);
+                // console.log('formdat',this.formdata)
+                this.submitNewItem({formdata:this.formdata, id:this.$route.params.id})
 
-                this.submitNewItem(this.formdata).then(() => {
-                    // this.$router.push('/itemslist')
-                    // this.$refs.submitform.reset()
-                    this.$store.state.submitted = true
-
-                    for (let indexKey of Object.keys(this.formdata)){
-                        this.$store.state.formdata[indexKey] = null
-                    }
-
-                    // console.log(this.formdata)
-
-                })
-
-                console.log('save', this.formdata)
             },
             saveNewDraft() {
                 this.saveDraft({listID: this.$route.params.id, draftData: this.formdata, draftID: this.$store.state.draftid})
@@ -399,8 +379,8 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        margin-top: 6px;
-        margin-bottom: 16px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         resize: vertical;
     }
 
@@ -432,5 +412,12 @@
 
     input[type=submit]:hover {
         background-color: #45a049;
+    }
+
+    .container {
+        padding: 0px !important;
+    }
+    .subTab input, .subTab select, .subTab textarea,  .subTab .v-text-field,  .subTab span  {
+        margin-left: 10px;
     }
 </style>

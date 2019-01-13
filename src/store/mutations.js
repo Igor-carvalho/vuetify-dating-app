@@ -100,4 +100,15 @@ export default {
 
         console.log('draftItems', state.draftitems[data.listID])
     },
+
+    resetFormData(state, data) {
+        for (let indexKey of Object.keys(state.formdata)){
+            state.formdata[indexKey] = null
+        }
+    },
+
+    changeSubmittedState(state, data) {
+
+        state.submitted = true
+    }
 }

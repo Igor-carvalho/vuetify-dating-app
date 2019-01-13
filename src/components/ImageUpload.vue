@@ -125,7 +125,7 @@
                     formData.append('files[' + i + ']', file);
                 }
                 // this.uploadImage({formData:formData, formName:this.name})
-                axios.post(API_BASE + '/form/123465/upload', formData,
+                axios.post(API_BASE + '/form/'+this.$route.params.id+'/upload', formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'

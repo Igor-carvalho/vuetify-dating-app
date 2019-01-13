@@ -52,44 +52,42 @@
                             <v-list-tile v-if="secondLevel.type=='item'"
                                          :key="secondindex"
                                          @click="gotoNewPage(secondLevel.path)">
-                                <v-list-tile-action  class="flex align-center justify-center">
-                                    <v-icon>local_offer</v-icon>
-                                    <font-awesome-icon :icon="['fas', secondLevel.icon]"/>
-                                    <!--<v-icon>fas {{secondLevel.icon}}</v-icon>-->
+
+                                <v-list-tile-action  v-if="secondLevel!=undefined && secondLevel.logo!=undefined"  class="flex align-center justify-center">
+                                    <font-awesome-icon v-if="checkIcon(secondLevel.logo)"  :icon="['fas', secondLevel.logo.replace('fa-', '')]"/>
+                                    <img v-else :src="secondLevel.logo" width="20" height="20"/><v-icon></v-icon>
                                 </v-list-tile-action>
                                 <v-list-tile-title v-if="secondLevel!=undefined">{{secondLevel.title}}111</v-list-tile-title>
                             </v-list-tile>
-                            <div v-else-if="secondLevel.type=='menu'">
-                                <v-list-group v-if="secondLevel.type=='menu'"
-                                        no-action
-                                        sub-group
-                                        value="false"
-                                >
-                                    <v-list-tile slot="activator">
-                                        <v-list-tile-action  v-if="secondLevel!=undefined && secondLevel.logo!=undefined"  class="flex align-center justify-center">
-                                            <font-awesome-icon v-if="checkIcon(secondLevel.logo)"  :icon="['fas', secondLevel.logo.replace('fa-', '')]"/>
-                                            <img v-else :src="secondLevel.logo" width="20" height="20"/><v-icon></v-icon>
+
+                            <v-list-group v-if="secondLevel.type=='menu'"
+                                    no-action
+                                    sub-group
+                            >
+                                <v-list-tile slot="activator">
+                                    <v-list-tile-action  v-if="secondLevel!=undefined && secondLevel.logo!=undefined"  class="flex align-center justify-center">
+                                        <font-awesome-icon v-if="checkIcon(secondLevel.logo)"  :icon="['fas', secondLevel.logo.replace('fa-', '')]"/>
+                                        <img v-else :src="secondLevel.logo" width="20" height="20"/><v-icon></v-icon>
+                                    </v-list-tile-action>
+                                    <v-list-tile-title v-if="secondLevel!=undefined">{{secondLevel.title}}</v-list-tile-title>
+                                </v-list-tile>
+
+                                <div v-if="secondLevel!=undefined && secondLevel.items">
+                                    <v-list-tile
+                                            v-for="(thirdLevel, thirdindex) in secondLevel.items"
+                                            :key="thirdindex"
+                                            @click=""
+                                            @click="gotoNewPage(thirdLevel.path)"
+                                    >
+
+                                        <v-list-tile-action  v-if="thirdLevel!=undefined" class="flex align-center justify-center">
+                                            <font-awesome-icon v-if="checkIcon(thirdLevel.icon)"  :icon="['fas', thirdLevel.icon.replace('fa-', '')]"/>
+                                            <img v-else :src="thirdLevel.icon" width="20" height="20"/><v-icon></v-icon>
                                         </v-list-tile-action>
-                                        <v-list-tile-title v-if="secondLevel!=undefined">{{secondLevel.title}}</v-list-tile-title>
+                                        <v-list-tile-title v-if="thirdLevel!=undefined" v-text="thirdLevel.title"></v-list-tile-title>
                                     </v-list-tile>
-
-                                    <div v-if="secondLevel!=undefined && secondLevel.items">
-                                        <v-list-tile
-                                                v-for="(thirdLevel, thirdindex) in secondLevel.items"
-                                                :key="thirdindex"
-                                                @click=""
-                                                @click="gotoNewPage(thirdLevel.path)"
-                                        >
-
-                                            <v-list-tile-action  v-if="thirdLevel!=undefined" class="flex align-center justify-center">
-                                                <font-awesome-icon v-if="checkIcon(thirdLevel.icon)"  :icon="['fas', thirdLevel.icon.replace('fa-', '')]"/>
-                                                <img v-else :src="thirdLevel.icon" width="20" height="20"/><v-icon></v-icon>
-                                            </v-list-tile-action>
-                                            <v-list-tile-title v-if="thirdLevel!=undefined" v-text="thirdLevel.title"></v-list-tile-title>
-                                        </v-list-tile>
-                                    </div>
-                                </v-list-group>
-                            </div>
+                                </div>
+                            </v-list-group>
                         </div>
                     </div>
                 </v-list-group>

@@ -42,10 +42,17 @@ export default {
         })
     },
     submitNewItem(context, payload) {
-        axios.post(API_BASE + '/form/123465/submit', payload)
+        axios.post(API_BASE + '/form/' +payload.id + '/submit', payload.formdata)
             .then(({ data }) => {
             if (data.success) {
                 context.commit('addSubmittedItems', data.data)
+
+
+                context.commit('resetFormData')
+
+                context.commit('changeSubmittedState')
+
+                console.log('sumittedifos')
             }
         })
     },
