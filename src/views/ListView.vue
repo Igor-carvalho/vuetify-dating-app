@@ -10,7 +10,7 @@
     >
 
       <v-toolbar-title>
-        <v-btn flat :to="'/home'"><v-icon dark left>arrow_back</v-icon></v-btn>
+        <v-btn flat :to="'/home'" class="mr-0 ml-0" style="min-width: 50px;"><v-icon dark left class="mr-0 ml-0">arrow_back</v-icon></v-btn>
         {{submitteditems.title}}
       </v-toolbar-title>
 
@@ -54,3 +54,6 @@
         }
     }
 </script>
+
+<style>
+</style>

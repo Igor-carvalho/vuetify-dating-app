@@ -54,7 +54,6 @@
                     }
 
                     delete forminfo.tabs
-                    console.log('dsdfsdf', forminfo)
                 }
                 return forminfo
             }

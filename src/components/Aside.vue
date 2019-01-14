@@ -138,4 +138,11 @@
     #core-footer {
         z-index: 0;
     }
+
+    .v-list__tile {
+        padding: 0px !important;
+    }
+    .v-list__group__items--no-action .v-list__tile {
+        padding-left: 25px!important;
+    }
 </style>

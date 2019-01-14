@@ -1,17 +1,30 @@
 <template>
     <div class="file-drag-drop">
-        <div class="fileForm" :ref="'imageform'+name">
+        <!--<div class="" :ref="'imageform'+name">-->
             <input hidden type="file" name="files[]" :id="'imageupload'+name" @change="onImageChange" multiple />
-            <label :for="'imageupload'+name" class="upload-label" >
+            <label :for="'imageupload'+name" class="upload-label fileForm" >
+
+                <div v-if="uploadPercentage==0">
                 <span v-if="filePaths.length==0"><strong class="choose-file">Choose an Image file</strong></span>
                 <span v-else>
                     <ul :ref="'imagelist'+name">
                         <li v-for="(path, index) in filePaths">[{{path}}]</li>
                     </ul>
                 </span>
+                </div>
+                <v-progress-circular v-else
+                                     :rotate="-90"
+                                     :size="50"
+                                     :width="5"
+                                     :value="uploadPercentage"
+                                     color="teal"
+                                     class="progressBar"
+                >
+                    {{ uploadPercentage }}
+                </v-progress-circular>
             </label>
-        </div>
-        <img hidden @click="openImage()" class="preview" v-bind:ref="'preview'"/>
+        <!--</div>-->
+        <!--<img hidden @click="openImage()" class="preview" v-bind:ref="'preview'"/>-->
 
     </div>
 </template>
@@ -35,7 +48,8 @@
             return {
                 dragAndDropCapable: false,
                 files: [],
-                filePaths: []
+                filePaths: [],
+                uploadPercentage: 0
             }
         },
         computed: {
@@ -102,9 +116,9 @@
             ...mapActions(['uploadImage']),
             ...mapMutations(['uploadImage']),
             onImageChange: function(e) {
-                if (this.$refs['imagelist'+this.name] != undefined) {
-                    this.$refs['imagelist'+this.name].innerHTML =''
-                }
+                // if (this.$refs['imagelist'+this.name] != undefined) {
+                //     this.$refs['imagelist'+this.name].innerHTML =''
+                // }
 
                 let uploadfiles = e.target.files || e.dataTransfer.files;
                 if (!uploadfiles.length) return;
@@ -130,6 +144,14 @@
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
+                        onUploadProgress: function (progressEvent) {
+                            // console.log('progressEvent',progressEvent.loaded, progressEvent.total, this.uploadPercentage, this.filePaths)
+                            if (progressEvent.loaded == progressEvent.total)
+                                this.uploadPercentage = 0
+                            else
+                                this.uploadPercentage = Math.round(progressEvent.loaded / progressEvent.total * 100).toFixed(0);
+
+                        }.bind(this)
                     })
                     .then((data)=>{
                         console.log('SUCCESS!!', data.data)
@@ -274,7 +296,7 @@
 <style>
     .file-drag-drop {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .fileForm{
         display: flex;
@@ -285,7 +307,7 @@
         width: 200px;
         background: #ccc;
         /*margin: auto;*/
-        margin: 20px;
+        margin: 10px 0px;
         text-align: center;
         /*line-height: 120px;*/
         border-radius: 5px;
@@ -339,7 +361,4 @@
         text-align: center;
     }
 
-    .upload-label:hover .choose-file {
-        color: #39bfd3;
-    }
 </style>

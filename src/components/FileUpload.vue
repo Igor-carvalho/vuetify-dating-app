@@ -1,9 +1,10 @@
 <template>
     <div class="file-drag-drop">
-        <div class="fileForm">
-            <input hidden type="file" name="files[]" :id="'file'+name" @change="onFileChange" multiple/>
-            <label :for="'file'+name" class="upload-label">
-                <!--<span v-if="resetForm==true "><strong class="choose-file">Choose a file</strong></span>-->
+        <!--<div class="fileForm">-->
+        <input hidden type="file" name="files[]" :id="'file'+name" @change="onFileChange" multiple/>
+        <label :for="'file'+name" class="upload-label fileForm">
+            <!--<span v-if="resetForm==true "><strong class="choose-file">Choose a file</strong></span>-->
+            <div v-if="uploadPercentage==0">
                 <span v-if="filePaths.length==0 "><strong class="choose-file">Choose a file</strong></span>
                 <span v-else>
                     <ul>
@@ -11,8 +12,19 @@
                         <li v-for="(path, index) in filePaths">[{{path}}]</li>
                     </ul>
                 </span>
-            </label>
-        </div>
+            </div>
+
+            <v-progress-circular v-else
+                                 :rotate="-90"
+                                 :size="50"
+                                 :width="5"
+                                 :value="uploadPercentage"
+                                 color="teal"
+                                 class="progressBar"
+            >
+                {{ uploadPercentage }}
+            </v-progress-circular>
+        </label>
     </div>
 </template>
 
@@ -26,12 +38,13 @@
     export default {
         props: {
             name: {type: String, required: true},
-            filenames: {type:String}
+            filenames: {type: String}
         },
-        data(){
+        data() {
             return {
                 files: [],
-                filePaths: []
+                filePaths: [],
+                uploadPercentage: 0
             }
         },
         computed: {
@@ -44,47 +57,54 @@
                     this.filePaths = []
             }
         },
-        created(){
+        created() {
             // this.$store.state.uploadedFilePath[this.name]=[]
-            if (this.filenames!=null) {
+            if (this.filenames != null) {
                 this.filePaths = this.filenames.split(',')
             } else
-                this.filePaths =[]
+                this.filePaths = []
         },
 
         methods: {
-            onFileChange(e){
-                this.$store.state.submitted=false
+            onFileChange(e) {
+                this.$store.state.submitted = false
                 let uploadfiles = e.target.files || e.dataTransfer.files;
                 if (!uploadfiles.length) return;
                 // this.files=files[0];
 
-                for( let i = 0; i < uploadfiles.length; i++ ){
-                    this.files.push( uploadfiles[i] );
+                for (let i = 0; i < uploadfiles.length; i++) {
+                    this.files.push(uploadfiles[i]);
                 }
 
                 let formData = new FormData()
                 // formData.append('files', this.files)
-                for( let i = 0; i < this.files.length; i++ ){
+                for (let i = 0; i < this.files.length; i++) {
                     let file = this.files[i];
 
                     formData.append('files[' + i + ']', file);
                 }
 
-                axios.post(API_BASE + '/form/'+this.$route.params.id+'/upload', formData,
+                axios.post(API_BASE + '/form/' + this.$route.params.id + '/upload', formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
+                        onUploadProgress: function (progressEvent) {
+                            if (progressEvent.loaded == progressEvent.total)
+                                this.uploadPercentage = 0
+                            else
+                                this.uploadPercentage = Math.round(progressEvent.loaded / progressEvent.total * 100).toFixed(0);
+
+                        }.bind(this)
                     })
-                    .then((data)=>{
+                    .then((data) => {
                         console.log('SUCCESS!!', data.data)
                         this.filePaths = data.data.filenames
                         this.files = []
-                        this.$store.state.formdata[this.name]=data.data.filenames.join(',')
+                        this.$store.state.formdata[this.name] = data.data.filenames.join(',')
                         // console.log('hey', this.$store.state.formdata)
                     })
-                    .catch(function(){
+                    .catch(function () {
                         console.log('FAILURE!!', this.name)
                     });
             },
@@ -95,9 +115,10 @@
 <style>
     .file-drag-drop {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
-    .fileForm{
+
+    .fileForm {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -106,11 +127,12 @@
         width: 200px;
         background: #ccc;
         /*margin: auto;*/
-        margin: 20px;
+        margin: 10px 0px;
         text-align: center;
         /*line-height: 120px;*/
         border-radius: 5px;
         font-size: 15px;
+        cursor: pointer;
     }
 
     .fileForm ul {
@@ -118,7 +140,7 @@
         padding: 0px;
     }
 
-    div.file-listing{
+    div.file-listing {
         width: 400px;
         margin: auto;
         padding: 10px;
@@ -127,22 +149,22 @@
         justify-content: center;
     }
 
-    div.file-listing img{
+    div.file-listing img {
         height: 100px;
     }
 
-    div.remove-container{
+    div.remove-container {
         text-align: center;
         margin-right: auto;
         margin-left: auto;
     }
 
-    div.remove-container v-btn{
+    div.remove-container v-btn {
         color: red;
         cursor: pointer;
     }
 
-    a.submit-button{
+    a.submit-button {
         display: block;
         margin: auto;
         text-align: center;
@@ -155,7 +177,7 @@
         margin-top: 20px;
     }
 
-    progress{
+    progress {
         width: 400px;
         margin: auto;
         display: block !important;
@@ -166,9 +188,5 @@
     .img-container {
         margin: auto;
         text-align: center;
-    }
-
-    .upload-label:hover .choose-file {
-        color: #39bfd3;
     }
 </style>

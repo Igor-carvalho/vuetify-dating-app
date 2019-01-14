@@ -47,12 +47,11 @@ export default {
             if (data.success) {
                 context.commit('addSubmittedItems', data.data)
 
-
                 context.commit('resetFormData')
 
                 context.commit('changeSubmittedState')
 
-                console.log('sumittedifos')
+                // console.log('sumittedifos')
             }
         })
     },

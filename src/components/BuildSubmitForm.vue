@@ -16,7 +16,7 @@
                                 <div v-if="forminfo.fields" style="width: 100%">
                                     <form class="" @submit.prevent="submitNewForm" ref="submitform">
                                         <div v-for="(item, index) in forminfo.fields">
-                                            <span v-if="item.title && item.type!='checkbox' && item.type!='toggle'">{{ item.title }}</span><br>
+                                            <span v-if="item.title && item.type!='checkbox' && item.type!='toggle'">{{ item.title }}<br></span>
                                             <v-select v-if="item.type=='select'"
                                                       height=35
                                                       :items="item.options"
@@ -34,12 +34,14 @@
                                                     transition="scale-transition"
                                                     full-width
                                                     min-width="290px"
+                                                     class="mb-1"
                                             >
                                                 <v-text-field
                                                         slot="activator"
                                                         readonly
                                                         outline
                                                         height=35
+                                                        hide-details
                                                         :value=" formdata[item.name] | moment(item.format)"
                                                 ></v-text-field>
                                                 <v-date-picker
@@ -55,6 +57,7 @@
                                                      full-width
                                                      max-width="290px"
                                                      min-width="290px"
+                                                     class="mb-1"
                                             >
                                                 <v-text-field
                                                         slot="activator"
@@ -79,15 +82,15 @@
                                                         :filenames="formdata[item.name]">
                                                 </FileUpload>
                                             </div>
-                                            <v-flex v-else-if="item.type=='checkbox'||item.type=='toggle'">
-                                                <input style="width: auto;transform: scale(1.5);"
+                                            <v-flex v-else-if="item.type=='checkbox'||item.type=='toggle'" class="d-flex">
+                                                <input style="width: auto;transform: scale(1.4); flex: none!important;"
                                                        type="checkbox"
                                                        :value="item.title"
                                                        :name="item.name"
                                                        :required="item.required"
                                                        :placeholder="item.placeholder"
                                                        v-model="formdata[item.name]">
-                                                <span v-if="item.title"> {{ item.title }}<br></span>
+                                                <span v-if="item.title" class="ml-2"> {{ item.title }}<br></span>
                                             </v-flex>
                                             <h3 v-else-if="item.type=='heading'"
                                                 class="text-xs-center mb-2">
@@ -116,7 +119,7 @@
                                                         <div v-for="(subitem, subindex) in tabInfo.fields">
                                                             <div v-if="subitem.length == undefined ">
                                                                 <v-flex v-if="subitem.type=='checkbox'||subitem.type=='toggle'">
-                                                                    <input style="width: auto;transform: scale(1.5);"
+                                                                    <input style="width: auto;transform: scale(1.3);"
                                                                            type="checkbox"
                                                                            :name="subitem.name"
                                                                            :required="subitem.required"
@@ -145,12 +148,14 @@
                                                                              transition="scale-transition"
                                                                              full-width
                                                                              min-width="290px"
+                                                                             class="mb-1"
                                                                     >
                                                                         <v-text-field
                                                                                 slot="activator"
                                                                                 readonly
                                                                                 outline
                                                                                 height=35
+                                                                                hide-details
                                                                                 :value=" formdata[subitem.name] | moment(subitem.format)"
                                                                         ></v-text-field>
                                                                         <v-date-picker
@@ -166,6 +171,7 @@
                                                                              full-width
                                                                              max-width="290px"
                                                                              min-width="290px"
+                                                                             class="mb-1"
                                                                     >
                                                                         <v-text-field
                                                                                 slot="activator"
@@ -215,12 +221,12 @@
                                                                            />
                                                                 </div>
                                                             </div>
-                                                            <div v-if="subitem.length > 0 " class="d-flex align-center justify-center subTab">
-                                                                <div v-for="(sub, subN) in subitem" class="d-flex align-center justify-center ">
-                                                                    <span v-if="sub.title && sub.type!='checkbox'&& sub.type!='toggle'">{{ sub.title }}</span>
+                                                            <v-flex v-if="subitem.length > 0 " class="subTab d-flex">
+                                                                <div v-for="(sub, subN) in subitem" class="mr-3 ml-3 xs6 sm6 md6" style="width: 50%;">
+                                                                    <span v-if="sub.title && sub.type!='checkbox'&& sub.type!='toggle'" class="d-flex justify-center">{{ sub.title }}</span>
 
                                                                     <v-flex v-if="sub.type=='checkbox'||sub.type=='toggle'">
-                                                                        <input style="width: auto;transform: scale(1.5);"
+                                                                        <input style="width: auto;transform: scale(1.3);"
                                                                                type="checkbox"
                                                                                :name="sub.name"
                                                                                :required="sub.required"
@@ -245,6 +251,7 @@
                                                                              transition="scale-transition"
                                                                              full-width
                                                                              min-width="290px"
+                                                                             class="mb-1"
                                                                     >
                                                                         <v-text-field
                                                                                 slot="activator"
@@ -266,6 +273,7 @@
                                                                              full-width
                                                                              max-width="290px"
                                                                              min-width="290px"
+                                                                             class="mb-1"
                                                                     >
                                                                         <v-text-field
                                                                                 slot="activator"
@@ -302,16 +310,16 @@
                                                                                 :filenames="formdata[sub.name]">
                                                                         </FileUpload>
                                                                     </div>
-                                                                    <div v-else-if="sub.type=='currency'">
-                                                                        <v-text-field
+                                                                    <!--<div >-->
+                                                                        <v-text-field v-else-if="sub.type=='currency'"
                                                                                 type="number"
                                                                                 v-model="formdata[sub.name]"
                                                                                 outline
                                                                                 min="0"
-                                                                                height=35
+                                                                                height=33
                                                                                 hide-details
                                                                         ></v-text-field>
-                                                                    </div>
+                                                                    <!--</div>-->
                                                                     <input v-else
                                                                            :type="sub.type"
                                                                            :name="sub.name"
@@ -322,7 +330,7 @@
                                                                            :placeholder="sub.placeholder"
                                                                            v-model="formdata[sub.name]"/>
                                                                 </div>
-                                                            </div>
+                                                            </v-flex>
                                                         </div>
                                                     </v-card-text>
                                                 </v-card>
@@ -360,7 +368,9 @@
             ...mapMutations(['saveDraft']),
             submitNewForm() {
                 // console.log('formdat',this.formdata)
-                this.submitNewItem({formdata:this.formdata, id:this.$route.params.id})
+                this.submitNewItem({formdata:this.formdata, id:this.$route.params.id}).then(()=>{
+                    this.$router.push('/list/' + this.$route.params.id)
+                })
 
             },
             saveNewDraft() {
@@ -373,14 +383,13 @@
 </script>
 
 <style lang="scss">
-    input, input[type=number], input[type=text], input[type=input], select, textarea {
+    input, input[type=number], input[type=text], input[type=input], select, textarea{
         width: 100%;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-        margin-top: 5px;
-        margin-bottom: 5px;
+        margin: 5px 0px!important;
         resize: vertical;
     }
 
@@ -418,6 +427,7 @@
         padding: 0px !important;
     }
     .subTab input, .subTab select, .subTab textarea,  .subTab .v-text-field,  .subTab span  {
-        margin-left: 10px;
+        /*margin-left: 10px;*/
+        margin: 0px!important;
     }
 </style>
