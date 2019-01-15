@@ -8,12 +8,13 @@
                 scroll-target="#scrolling-techniques"
                 style="position: fixed"
         >
-            <v-toolbar-title>
-                <v-btn flat :to="'/list/'+$route.params.id"><v-icon dark left>arrow_back</v-icon></v-btn>
+            <v-btn flat :to="'/list/'+$route.params.id" class="ml-0 mr-0 pl-0 pr-0" style="min-width: 30px"><v-icon dark left>arrow_back</v-icon></v-btn>
+            <v-toolbar-title  class="mr-0 ml-0 pl-0 pr-0 d-flex justify-center" style="width: 100%">
                 {{getFormInfo().title}}
             </v-toolbar-title>
 
             <v-spacer></v-spacer>
+            <div class="mr-0 ml-0 pl-0 pr-0" style="min-width: 35px;"></div>
         </v-toolbar>
         <SubmitForm :forminfo="getFormInfo()"/>
     </div>
@@ -60,3 +61,9 @@
         }
     }
 </script>
+
+<style>
+    .v-toolbar__content {
+        padding: 0px 5px!important;
+    }
+</style>
