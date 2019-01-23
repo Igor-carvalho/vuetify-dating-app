@@ -74,6 +74,26 @@ const router = new Router({
             component: () => import('./views/WebView.vue')
         },
         {
+            path: '/settings',
+            name: 'sSettings',
+            component: () => import('./views/Settings.vue')
+        },
+        {
+            path: '/profile',
+            name: 'account',
+            component: () => import('./views/ProfileView.vue')
+        },
+        {
+            path: '/changepwd',
+            name: 'changepwd',
+            component: () => import('./views/ChangePwd.vue')
+        },
+        {
+            path: '/changelang',
+            name: 'changelang',
+            component: () => import('./views/ChangeLang.vue')
+        },
+        {
             path: '*',
             redirect: '/'
         }
@@ -84,11 +104,9 @@ router.beforeEach((to, from, next) => {
     const isPublic = to.meta && to.meta.isPublic
     const requiresNotAuthed = to.meta && to.meta.requiresNotAuthed
     const authRequired = !isPublic
-    // const loggedIn = store.state.token
-    const loggedIn = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6ImNsb3VkcGFkOS5jb20ifQ.eyJpc3MiOiJjbG91ZHBhZDkuY29tIiwianRpIjoiY2xvdWRwYWQ5LmNvbSIsImlhdCI6MTU0Njg2Mjc4OCwibmJmIjoxNTQ2ODYyNzg4LCJleHAiOjE1NDc3MjY3ODgsInVpZCI6IjViODdiZTU2MDA5MWZhN2RlMTBlOTViNiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsImRlbGV0ZSJdfQ.h5PxAEzQG2CG7XcL5r5U01bxnRzfWlFgikPFf1Cf6ww'
+    const loggedIn = store.state.token
     store.commit('setToken', loggedIn)
 
-    // console.log(!loggedIn)
     if (authRequired && !loggedIn) {
         return next('/login')
     }

@@ -69,5 +69,5 @@ export default {
             .catch(function(){
                 console.log('FAILURE!!')
             });
-    }
+    },
 }

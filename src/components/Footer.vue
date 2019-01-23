@@ -4,9 +4,13 @@
             <span>Home</span>
             <v-icon class="ma-0" style="font-size: 35px;">home</v-icon>
         </v-btn>
-        <v-btn v-for="(item, key) in appdefinition.bottomNav" :key="appdefinition.bottomNav.id"  color="teal" @click="gotoNewPage(item.path)">
+        <v-btn v-for="(item, key) in appdefinition.bottomNav" :key="key"  color="teal" flat @click="gotoNewPage(item.path)">
             <span>{{item.title}}</span>
-            <img :src="item.icon" width="30" height="30"/><v-icon></v-icon>
+            <img :src="item.icon" width="30" height="30"/>
+        </v-btn>
+        <v-btn color="teal" flat :to="'/settings'">
+            <span>More</span>
+            <v-icon class="ma-0" style="font-size: 35px;">more_horiz</v-icon>
         </v-btn>
     </v-bottom-nav>
 </template>

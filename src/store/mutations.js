@@ -110,5 +110,5 @@ export default {
     changeSubmittedState(state, data) {
 
         state.submitted = true
-    }
+    },
 }
