@@ -54,13 +54,13 @@
                         <v-subheader inset class="mt-2"><h2>PERSONAL</h2></v-subheader>
                         <v-divider></v-divider>
                         <v-list-tile avatar ripple v-for="item in items">
-                            <v-list-tile-avatar></v-list-tile-avatar>
+                            <!--<v-list-tile-avatar></v-list-tile-avatar>-->
                             <v-list-tile-content>
-                                <v-list-tile-title>{{item.title}}</v-list-tile-title>
+                                <v-list-tile-title class="pl-3">{{item.title}}</v-list-tile-title>
                             </v-list-tile-content>
 
                             <v-list-tile-action>
-                                <span class="pr-4">{{item.subtitle}}</span>
+                                <span class="pr-3">{{item.subtitle}}</span>
                             </v-list-tile-action>
 
                         </v-list-tile>
@@ -68,13 +68,12 @@
                         <v-subheader inset class="mt-3"><h2>NETWORK</h2></v-subheader>
                         <v-divider></v-divider>
                         <v-list-tile avatar ripple v-for="item in items2">
-                            <v-list-tile-avatar></v-list-tile-avatar>
                             <v-list-tile-content>
-                                <v-list-tile-title>{{item.title}}</v-list-tile-title>
+                                <v-list-tile-title  class="pl-3">{{item.title}}</v-list-tile-title>
                             </v-list-tile-content>
 
                             <v-list-tile-action>
-                                <span class="pr-4">{{item.subtitle}}</span>
+                                <span class="pr-3">{{item.subtitle}}</span>
                             </v-list-tile-action>
 
                         </v-list-tile>
